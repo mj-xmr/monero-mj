@@ -38,6 +38,7 @@ include(CheckLinkerFlag)
 include(CheckLibraryExists)
 include(CheckFunctionExists)
 include(FindPythonInterp)
+include(FindCcache)
 
 if (IOS)
     INCLUDE(CmakeLists_IOS.txt)
