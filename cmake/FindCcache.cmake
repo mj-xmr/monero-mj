@@ -41,7 +41,7 @@
 find_program(CCACHE_FOUND ccache)
 if (CCACHE_FOUND)
     # Test if works
-    execute_process(COMMAND ccache cc "${CMAKE_SOURCE_DIR}/cmake/test-program.cpp" RESULT_VARIABLE RET)
+    execute_process(COMMAND "${CCACHE_FOUND}" cc "${CMAKE_SOURCE_DIR}/cmake/test-program.cpp" RESULT_VARIABLE RET)
     if (${RET} EQUAL 0)
 	message("ccache found and is usable.")
 	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_FOUND}")
