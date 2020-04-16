@@ -37,19 +37,22 @@
 #
 #  GLOBAL PROPERTY RULE_LAUNCH_COMPILE     set to ccache, when ccache found
 #  GLOBAL PROPERTY RULE_LAUNCH_LINK        set to ccache, when ccache found
-
-find_program(CCACHE_FOUND ccache)
-if (CCACHE_FOUND)
-    # Test if works
-    execute_process(COMMAND "${CCACHE_FOUND}" cc "${CMAKE_SOURCE_DIR}/cmake/test-program.cpp" RESULT_VARIABLE RET)
-    if (${RET} EQUAL 0)
-	message("ccache found and is usable.")
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_FOUND}")
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK    "${CCACHE_FOUND}")
-    else()
-	message("ccache found but DOESN'T WORK!")
-    endif()
+if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+	message("Temporarily ignoring ccache on FreeBSD, since it breaks cross compilation.")
 else()
-    message("ccache NOT found!")
+	find_program(CCACHE_FOUND ccache)
+	if (CCACHE_FOUND)
+	    # Test if works
+	    execute_process(COMMAND "${CCACHE_FOUND}" cc "${CMAKE_SOURCE_DIR}/cmake/test-program.cpp" RESULT_VARIABLE RET)
+	    if (${RET} EQUAL 0)
+		message("ccache found and is usable.")
+		set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_FOUND}")
+		set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK    "${CCACHE_FOUND}")
+	    else()
+		message("ccache found but DOESN'T WORK!")
+	    endif()
+	else()
+	    message("ccache NOT found!")
+	endif()
 endif()
 
