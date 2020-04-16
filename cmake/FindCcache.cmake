@@ -28,7 +28,6 @@
 # - Try to find readline include dirs and libraries 
 #
 # Automatically finds ccache build accelerator, if it's found in PATH.
-# TODO: On Windows, try to find clcache
 #
 # Usage of this module as follows:
 #
@@ -42,9 +41,9 @@
 find_program(CCACHE_FOUND ccache)
 if (CCACHE_FOUND)
     message("ccache found")
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK    ccache)
-else(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_FOUND}")
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK    "${CCACHE_FOUND}")
+else()
     message("ccache NOT found!")
-endif(CCACHE_FOUND)
+endif()
 
