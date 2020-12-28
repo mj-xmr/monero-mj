@@ -30,6 +30,7 @@
 
 #include "gtest/gtest.h"
 
+#include "unit_tests_utils.h"
 #include "string_tools.h"
 #include "ringct/rctOps.h"
 #include "ringct/rctSigs.h"
@@ -111,17 +112,6 @@ TEST(bulletproofs_plus, invalid_31)
   rct::BulletproofPlus proof = bulletproof_plus_PROVE(invalid_amount, rct::skGen());
   ASSERT_FALSE(rct::bulletproof_plus_VERIFY(proof));
 }
-
-static const char * const torsion_elements[] =
-{
-  "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa",
-  "0000000000000000000000000000000000000000000000000000000000000000",
-  "26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc85",
-  "ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f",
-  "26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05",
-  "0000000000000000000000000000000000000000000000000000000000000080",
-  "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a",
-};
 
 TEST(bulletproofs_plus, invalid_torsion)
 {

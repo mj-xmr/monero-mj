@@ -44,10 +44,10 @@ static const size_t test_distribution_size = sizeof(test_distribution) / sizeof(
 namespace
 {
 
-class TestDB: public cryptonote::BaseTestDB
+class TestDBOutputDistrib: public cryptonote::BaseTestDB
 {
 public:
-  TestDB(size_t bc_height = test_distribution_size): blockchain_height(bc_height) { m_open = true; }
+  TestDBOutputDistrib(size_t bc_height = test_distribution_size): blockchain_height(bc_height) { m_open = true; }
   virtual uint64_t height() const override { return blockchain_height; }
 
   std::vector<uint64_t> get_block_cumulative_rct_outputs(const std::vector<uint64_t> &heights) const override
@@ -88,7 +88,7 @@ bool get_output_distribution(uint64_t amount, uint64_t from, uint64_t to, uint64
     get_test_options():hard_forks{std::make_pair((uint8_t)1, (uint64_t)0), std::make_pair((uint8_t)0, (uint64_t)0)}{}
   } opts;
   cryptonote::Blockchain *blockchain = bc.get();
-  bool r = blockchain->init(new TestDB(test_distribution_size), cryptonote::FAKECHAIN, true, &opts.test_options, 0, NULL);
+  bool r = blockchain->init(new TestDBOutputDistrib(test_distribution_size), cryptonote::FAKECHAIN, true, &opts.test_options, 0, NULL);
   return r && bc->get_output_distribution(amount, from, to, start_height, distribution, base);
 }
 
