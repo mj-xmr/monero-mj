@@ -1005,7 +1005,11 @@ enum class GenPlayMode
             { \
                 boost::filesystem::create_directory(tests_folder); \
             } \
-            if (!tools::serialize_obj_to_file(events, filename)) \
+            if (tools::serialize_obj_to_file(events, filename)) \
+            { \
+              MGINFO_GREEN("Successfully serialized file: " << filename);   \
+            }  \
+            else \
             { \
                 MERROR("Failed to serialize data to file: " << filename); \
                 throw std::runtime_error("Failed to serialize data to file"); \
