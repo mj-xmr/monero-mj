@@ -990,6 +990,8 @@ enum class GenPlayMode
 
 #define SET_EVENT_VISITOR_SETT(VEC_EVENTS, SETT) VEC_EVENTS.push_back(event_visitor_settings(SETT));
 
+#define DIR_TEST_CACHE "../../../test_cache/"
+
 #define GENERATE(filename, genclass) \
     { \
         if (epee::file_io_utils::is_file_exist(filename)) \
@@ -1001,6 +1003,10 @@ enum class GenPlayMode
             std::vector<test_event_entry> events; \
             genclass g; \
             g.generate(events); \
+            if (! epee::file_io_utils::is_file_exist(DIR_TEST_CACHE)) \
+            { \
+                boost::filesystem::create_directory(DIR_TEST_CACHE); \
+            } \
             if (!tools::serialize_obj_to_file(events, filename)) \
             { \
                 MERROR("Failed to serialize data to file: " << filename); \
@@ -1074,7 +1080,7 @@ enum class GenPlayMode
   
 // Using the preprocessor's "stringify" (#) to convert class name to a char array
 #define GET_DAT_FILE(genclass) \
-  #genclass + std::string(".dat")
+  std::string(DIR_TEST_CACHE) + #genclass + std::string(".dat")
   
 #define GENERATE_AND_PLAY_MULTIMODE(mode, genclass)                                                        \
   switch (mode)                                                                                            \
