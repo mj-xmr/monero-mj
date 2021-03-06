@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
   
   if (gen_play_mode != GenPlayMode::GEN_MODE_NONE)
   {
-    GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_simple_chain_001);
+    GENERATE_AND_PLAY_MULTIMODE(tests_folder, gen_play_mode, gen_simple_chain_001);
     /*
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_simple_chain_split_1);
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, one_block);
@@ -289,7 +289,7 @@ int main(int argc, char* argv[])
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_rct2_tx_clsag_malleability);
     */
 
-    GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_block_low_coinbase);
+    GENERATE_AND_PLAY_MULTIMODE(tests_folder, gen_play_mode, gen_block_low_coinbase);
     
     if (gen_play_mode == GenPlayMode::GEN_MODE_GENERATE_AND_PLAY || gen_play_mode == GenPlayMode::GEN_MODE_PLAY)
     {

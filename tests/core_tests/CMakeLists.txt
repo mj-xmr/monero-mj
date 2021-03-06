@@ -90,5 +90,5 @@ set_property(TARGET core_tests
 #core_tests --play_test_data 
 add_test(
   NAME    core_tests
-  COMMAND sh -c "./core_tests --generate_test_data && ./core_tests --play_test_data")
+  COMMAND sh -c "./core_tests --generate_test_data --test_data_path=${PROJECT_SOURCE_DIR}/build/test_cache && ./core_tests --play_test_data --test_data_path=${PROJECT_SOURCE_DIR}/build/test_cache")
   

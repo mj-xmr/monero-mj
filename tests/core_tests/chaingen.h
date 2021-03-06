@@ -1079,17 +1079,17 @@ enum class GenPlayMode
   }
   
 // Using the preprocessor's "stringify" (#) to convert class name to a char array
-#define GET_DAT_FILE(genclass) \
-  std::string(DIR_TEST_CACHE) + #genclass + std::string(".dat")
+#define GET_DAT_FILE(tests_folder, genclass) \
+  tests_folder + "/" + #genclass + std::string(".dat")
   
-#define GENERATE_AND_PLAY_MULTIMODE(mode, genclass)                                                        \
+#define GENERATE_AND_PLAY_MULTIMODE(tests_folder, mode, genclass)                                                        \
   switch (mode)                                                                                            \
   {                                                                                                        \
     case GenPlayMode::GEN_MODE_GENERATE:                                                                   \
-      GENERATE(GET_DAT_FILE(genclass), genclass);                                                          \
+      GENERATE(GET_DAT_FILE(tests_folder, genclass), genclass);                                                          \
     break;                                                                                                 \
     case GenPlayMode::GEN_MODE_PLAY:                                                                       \
-      PLAY(GET_DAT_FILE(genclass), genclass);                                                              \
+      PLAY(GET_DAT_FILE(tests_folder, genclass), genclass);                                                              \
     break;                                                                                                 \
     case GenPlayMode::GEN_MODE_GENERATE_AND_PLAY:                                                          \
       GENERATE_AND_PLAY(genclass);                                                                         \
