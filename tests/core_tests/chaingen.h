@@ -56,6 +56,7 @@
 #include "cryptonote_protocol/enums.h"
 #include "cryptonote_basic/cryptonote_boost_serialization.h"
 #include "misc_language.h"
+#include "file_io_utils.h"
 
 #undef MONERO_DEFAULT_LOG_CATEGORY
 #define MONERO_DEFAULT_LOG_CATEGORY "tests.core"
@@ -816,11 +817,19 @@ inline bool do_replay_file(const std::string& filename)
   std::vector<test_event_entry> events;
   if (!tools::unserialize_obj_from_file(events, filename))
   {
-    MERROR("Failed to deserialize data from file: ");
+    MERROR("XXX Failed to deserialize data from file: " + filename);
     return false;
   }
   return do_replay_events<t_test_class>(events);
 }
+
+enum class GenPlayMode
+{
+    GEN_MODE_NONE,
+    GEN_MODE_GENERATE,
+    GEN_MODE_PLAY,
+    GEN_MODE_GENERATE_AND_PLAY
+};
 
 //--------------------------------------------------------------------------
 #define DEFAULT_HARDFORKS(HARDFORKS) do { \
@@ -983,23 +992,37 @@ inline bool do_replay_file(const std::string& filename)
 
 #define GENERATE(filename, genclass) \
     { \
-        std::vector<test_event_entry> events; \
-        genclass g; \
-        g.generate(events); \
-        if (!tools::serialize_obj_to_file(events, filename)) \
+        if (epee::file_io_utils::is_file_exist(filename)) \
         { \
-            MERROR("Failed to serialize data to file: " << filename); \
-            throw std::runtime_error("Failed to serialize data to file"); \
+            MGINFO_GREEN("Already generated file: " << filename);  \
+        } \
+        else \
+        { \
+            std::vector<test_event_entry> events; \
+            genclass g; \
+            g.generate(events); \
+            if (!tools::serialize_obj_to_file(events, filename)) \
+            { \
+                MERROR("Failed to serialize data to file: " << filename); \
+                throw std::runtime_error("Failed to serialize data to file"); \
+            } \
         } \
     }
-
+    
+#define REPLAY_REPORTING(genclass, success)                                                                \
+    if (success)                                                                                           \
+    {                                                                                                      \
+      MGINFO_GREEN("#TEST# Succeeded " << #genclass);                                                      \
+    }                                                                                                      \
+    else                                                                                                   \
+    {                                                                                                      \
+      MERROR("#TEST# Failed " << #genclass);                                                               \
+      failed_tests.push_back(#genclass);                                                                   \
+    }
 
 #define PLAY(filename, genclass) \
-    if(!do_replay_file<genclass>(filename)) \
-    { \
-      MERROR("Failed to pass test : " << #genclass); \
-      return 1; \
-    }
+    ++tests_count; \
+    REPLAY_REPORTING(genclass, do_replay_file<genclass>(filename))
 
 #define CATCH_REPLAY(genclass)                                                                             \
     catch (const std::exception& ex)                                                                       \
@@ -1012,16 +1035,8 @@ inline bool do_replay_file(const std::string& filename)
     }
 
 #define REPLAY_CORE(genclass)                                                                              \
-    if (generated && do_replay_events< genclass >(events))                                                 \
-    {                                                                                                      \
-      MGINFO_GREEN("#TEST# Succeeded " << #genclass);                                                      \
-    }                                                                                                      \
-    else                                                                                                   \
-    {                                                                                                      \
-      MERROR("#TEST# Failed " << #genclass);                                                               \
-      failed_tests.push_back(#genclass);                                                                   \
-    }
-
+    REPLAY_REPORTING(genclass, generated && do_replay_events< genclass >(events))                          \
+    
 #define REPLAY_WITH_CORE(genclass, CORE)                                                                   \
     if (generated && replay_events_through_core_validate< genclass >(events, CORE))                        \
     {                                                                                                      \
@@ -1055,6 +1070,26 @@ inline bool do_replay_file(const std::string& filename)
       generated = g.generate(events);                                                                      \
     }                                                                                                      \
     CATCH_GENERATE_REPLAY(genclass);                                                                       \
+  }
+  
+// Using the preprocessor's "stringify" (#) to convert class name to a char array
+#define GET_DAT_FILE(genclass) \
+  #genclass + std::string(".dat")
+  
+#define GENERATE_AND_PLAY_MULTIMODE(mode, genclass)                                                        \
+  switch (mode)                                                                                            \
+  {                                                                                                        \
+    case GenPlayMode::GEN_MODE_GENERATE:                                                                   \
+      GENERATE(GET_DAT_FILE(genclass), genclass);                                                          \
+    break;                                                                                                 \
+    case GenPlayMode::GEN_MODE_PLAY:                                                                       \
+      PLAY(GET_DAT_FILE(genclass), genclass);                                                              \
+    break;                                                                                                 \
+    case GenPlayMode::GEN_MODE_GENERATE_AND_PLAY:                                                          \
+      GENERATE_AND_PLAY(genclass);                                                                         \
+    break;                                                                                                 \
+    default:                                                                                               \
+      throw std::invalid_argument("GENERATE_AND_PLAY_MULTIMODE: unhandled mode");                          \
   }
 
 #define GENERATE_AND_PLAY_INSTANCE(genclass, ins, CORE)                                                    \
