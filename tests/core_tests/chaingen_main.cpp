@@ -267,7 +267,7 @@ int main(int argc, char* argv[])
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_multisig_tx_invalid_25_1_no_signers);
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_multisig_tx_invalid_48_1_no_signers);
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_multisig_tx_invalid_48_1_23_no_threshold);
-
+*/
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_bp_tx_valid_1_before_12);
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_bp_tx_invalid_1_from_12);
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_bp_tx_invalid_1_1);
@@ -287,7 +287,7 @@ int main(int argc, char* argv[])
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_bp_tx_invalid_bulletproof2_type);
 
     GENERATE_AND_PLAY_MULTIMODE(gen_play_mode, gen_rct2_tx_clsag_malleability);
-    */
+    
 
     GENERATE_AND_PLAY_MULTIMODE(tests_folder, gen_play_mode, gen_block_low_coinbase);
     

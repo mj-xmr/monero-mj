@@ -115,6 +115,9 @@ jobs:
   test-ubuntu:
     needs: build-ubuntu
     runs-on: ubuntu-latest
+    env:
+      CCACHE_COMPRESS: 1
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
     steps:
     - uses: actions/checkout@v1
       with:
@@ -128,9 +131,7 @@ jobs:
       with:
         path: ~/.ccache
         key: ccache-ubuntu-test-ccache-${{ github.sha }}
-        restore-keys: |
-          ccache-ubuntu-test-ccache-
-          ccache-ubuntu-libwallet-
+        restore-keys: ccache-ubuntu-test-ccache-
     - name: remove bundled boost
       run: sudo rm -rf /usr/local/share/boost
     - name: set apt conf
