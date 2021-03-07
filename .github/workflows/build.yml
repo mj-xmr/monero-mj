@@ -124,6 +124,13 @@ jobs:
         path: test_cache
         key: cache-ubuntu-test-${{ github.sha }}
         restore-keys: cache-ubuntu-test-
+    - uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-ubuntu-test-ccache-${{ github.sha }}
+        restore-keys: |
+          ccache-ubuntu-test-ccache-
+          ccache-ubuntu-libwallet-
     - name: remove bundled boost
       run: sudo rm -rf /usr/local/share/boost
     - name: set apt conf
@@ -141,5 +148,6 @@ jobs:
       env:
         CTEST_OUTPUT_ON_FAILURE: ON
       run: |
+        ls test_cache
         make release-test -j3
         ls test_cache
