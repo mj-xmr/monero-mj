@@ -140,6 +140,6 @@ jobs:
     - name: tests
       env:
         CTEST_OUTPUT_ON_FAILURE: ON
-      run: | 
+      run: |
       	make release-test -j3
       	ls test_cache
