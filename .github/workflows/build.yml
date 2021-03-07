@@ -121,7 +121,7 @@ jobs:
         submodules: recursive
     - uses: actions/cache@v2
       with:
-        path: /home/runner/work/monero/test_cache
+        path: test_cache
         key: cache-ubuntu-test-${{ github.sha }}
         restore-keys: cache-ubuntu-test-
     - name: remove bundled boost
@@ -140,4 +140,6 @@ jobs:
     - name: tests
       env:
         CTEST_OUTPUT_ON_FAILURE: ON
-      run: make release-test -j3
+      run: | 
+      	make release-test -j3
+      	ls test_cache
