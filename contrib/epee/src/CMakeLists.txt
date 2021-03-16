@@ -63,6 +63,7 @@ target_link_libraries(epee
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_THREAD_LIBRARY}
     ${Boost_IOSTREAMS_LIBRARY}
+    z
   PRIVATE
     ${OPENSSL_LIBRARIES}
     ${EXTRA_LIBRARIES})
