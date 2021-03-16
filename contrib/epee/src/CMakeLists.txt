@@ -56,6 +56,8 @@ if (BUILD_GUI_DEPS)
     endif()
 endif()
 
+find_package(ZLIB REQUIRED)
+
 target_link_libraries(epee
   PUBLIC
     easylogging

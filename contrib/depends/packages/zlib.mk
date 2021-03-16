@@ -10,13 +10,15 @@ $(package)_config_opts+=--prefix=$(host_prefix)
 endef
 
 define $(package)_config_cmds
-  CHOST=$(host) CC="$($(host_os)_CC) -target $(host) -fPIC -pipe" ARFLAGS=$($(host_os)_ARFLAGS) AR=$($(host_os)_AR) RANLIB=$($(host_os)_RANLIB) ./configure --static --prefix=$(host_prefix) --eprefix=$(host_prefix)
+  CHOST=$(host) CC="$(host_prefix)/native/bin/$($(package)_cc) -target $(host) -fPIC -pipe" ARFLAGS="$($(host_os)_ARFLAGS)" AR="$($(host_os)_AR)" RANLIB="$(host_prefix)/native/bin/$($(package)_ranlib)" \
+    LIBTOOL="$(host_prefix)/native/bin/$($(package)_libtool)" \
+ ./configure --static --prefix=$(host_prefix) --eprefix=$(host_prefix)
   #CHOST=$HOST ./configure $($(package)_config_opts) AR_FLAGS=$($(package)_arflags)
   #CHOST=$HOST ./configure $($(package)_config_opts)
 endef
 
 define $(package)_build_cmds
-  $(MAKE)
+  $(MAKE) ARFLAGS="$($(host_os)_ARFLAGS)"
 endef
 
 define $(package)_stage_cmds
