@@ -1,4 +1,4 @@
-packages:=boost openssl zeromq libiconv zlib
+packages:=boost openssl zeromq libiconv
 
 native_packages := native_ccache
 
