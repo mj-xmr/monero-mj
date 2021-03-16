@@ -56,7 +56,7 @@ if (BUILD_GUI_DEPS)
     endif()
 endif()
 
-find_package(ZLIB REQUIRED)
+#find_package(ZLIB REQUIRED)
 
 target_link_libraries(epee
   PUBLIC
@@ -65,7 +65,7 @@ target_link_libraries(epee
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_THREAD_LIBRARY}
     ${Boost_IOSTREAMS_LIBRARY}
-    z
+#    z
   PRIVATE
     ${OPENSSL_LIBRARIES}
     ${EXTRA_LIBRARIES})
