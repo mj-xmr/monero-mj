@@ -56,16 +56,12 @@ if (BUILD_GUI_DEPS)
     endif()
 endif()
 
-
-#find_library(ZLIB z)
 if (Boost_ZLIB_FOUND)
-	set(MONERO_ZLIB ${Boost_ZLIB_LIBRARY})
+    set(MONERO_ZLIB ${Boost_ZLIB_LIBRARY})
 else()
-	set(MONERO_ZLIB z)
+    set(MONERO_ZLIB z)
 endif()
-
-message(WARNING "ZLIB: ${MONERO_ZLIB}")
-#find_library(ZLIB_LIBRARY z)
+message(STATUS "Using zlib: ${MONERO_ZLIB}")
 
 target_link_libraries(epee
   PUBLIC
@@ -74,11 +70,7 @@ target_link_libraries(epee
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_THREAD_LIBRARY}
     ${Boost_IOSTREAMS_LIBRARY}
-    #/home/enjo/store/devel/github/monero/monero/contrib/depends/x86_64-unknown-freebsd/lib/libboost_zlib-mt.a
-        #z
-        #/home/enjo/store/devel/github/monero/monero/contrib/depends/riscv64-linux-gnu/lib/libboost_zlib-mt.a
-        #${ZLIB_LIBRARY}
-        ${MONERO_ZLIB}
+    ${MONERO_ZLIB}
   PRIVATE
     ${OPENSSL_LIBRARIES}
     ${EXTRA_LIBRARIES})
@@ -90,10 +82,6 @@ if (USE_READLINE AND (GNU_READLINE_FOUND OR (DEPENDS AND NOT MINGW)))
     PRIVATE
     ${GNU_READLINE_LIBRARY})
 endif()
-
-add_executable(epee_exe main.cpp)
-
-target_link_libraries(epee_exe epee)
 
 target_include_directories(epee PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
 

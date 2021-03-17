@@ -30,18 +30,16 @@
 #define _FILE_COMPRESSION_H_
 
 #include <iosfwd>
+#include <string>
 
-class FileCompression
+namespace epee
 {
-public:
-    FileCompression();
-    virtual ~FileCompression();
-    
-    static void Decompress(const std::string & fileNameBase, std::ostream & outStream);
-    static void Compress(const std::string & fileName);
-    static std::string GetExtension();
-private:
-    
-};
+namespace file_compression
+{
+    void decompress_file(const std::string & filename_base, std::ostream & out_stream);
+    void compress_file(const std::string & filename);
+    std::string get_archive_extension();
+}
+}
 
 #endif // _FILE_COMPRESSION_H_

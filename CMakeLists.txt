@@ -926,9 +926,7 @@ if(STATIC)
   set(Boost_USE_STATIC_LIBS ON)
   set(Boost_USE_STATIC_RUNTIME ON)
 endif()
-
 find_package(Boost 1.58 QUIET REQUIRED COMPONENTS system filesystem iostreams thread date_time chrono regex serialization program_options locale OPTIONAL_COMPONENTS zlib)
-
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ${OLD_LIB_SUFFIXES})
 if(NOT Boost_FOUND)
@@ -1055,12 +1053,12 @@ endif()
 
 include(external/supercop/functions.cmake) # place after setting flags and before src directory inclusion
 add_subdirectory(contrib)
-#add_subdirectory(src)
+add_subdirectory(src)
 
 find_package(PythonInterp)
 if(BUILD_TESTS)
   message(STATUS "Building tests")
-  #add_subdirectory(tests)
+  add_subdirectory(tests)
 else()
   message(STATUS "Not building tests")
 endif()

@@ -49,28 +49,34 @@
 #include <fstream>
 #include <string>
 
-void FileCompression::Decompress(const std::string & fileNameBase, std::ostream & outStream)
+namespace epee
+{
+namespace file_compression
+{
+void decompress_file(const std::string & fileNameBase, std::ostream & outStream)
 {
     namespace bio = boost::iostreams;
-    std::ifstream file(fileNameBase + GetExtension(), std::ios_base::binary);
+    std::ifstream file(fileNameBase + get_archive_extension(), std::ios_base::binary);
     bio::filtering_streambuf<bio::input> in;
     in.push(bio::DECOMPRESSOR);  
     in.push(file);
     bio::copy(in, outStream);
 }
 
-void FileCompression::Compress(const std::string & fileNameBase)
+void compress_file(const std::string & fileNameBase)
 {
     namespace bio = boost::iostreams;
     std::ifstream inStream(fileNameBase, std::ios_base::in);
-    std::ofstream outStream(fileNameBase + GetExtension(), std::ios_base::out);
+    std::ofstream outStream(fileNameBase + get_archive_extension(), std::ios_base::out);
     boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
     in.push(bio::COMPRESSOR);
     in.push(inStream);
     boost::iostreams::copy(in, outStream);
 }
 
-std::string FileCompression::GetExtension()
+std::string get_archive_extension()
 {
     return EXTENSION;
+}
+}
 }

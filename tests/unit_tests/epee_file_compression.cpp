@@ -31,28 +31,27 @@
 #include "file_compression.h"
 
 #include "gtest/gtest.h"
-
 #include <boost/filesystem.hpp>
-
 #include <fstream>
 #include <sstream>
 
 TEST(epee_file_compression, compressed_is_same_as_decompressed)
 {
   namespace bfs = boost::filesystem;
+  namespace epfc = epee::file_compression;
   const bfs::path p = bfs::temp_directory_path() / bfs::unique_path();
   const std::string log_filename = p.string();
-  const std::string content = "Some content";
+  const std::string content = "Some content to compare";
   {
       std::ofstream fout(log_filename);
       fout << content;
   }
-  FileCompression::Compress(log_filename);
+  epfc::compress_file(log_filename);
   std::ostringstream oss;
-  FileCompression::Decompress(log_filename, oss);
+  epfc::decompress_file(log_filename, oss);
   ASSERT_EQ(content, oss.str());
   
   bfs::remove(log_filename);
-  bfs::remove(log_filename + FileCompression::GetExtension());
+  bfs::remove(log_filename + epfc::get_archive_extension());
 }
 

@@ -173,7 +173,7 @@ void mlog_configure(const std::string &filename_base, bool console, const std::s
       return;
     }
     // Log rotation works best with compression
-    FileCompression::Compress(rname);
+    epee::file_compression::compress_file(rname);
     remove(rname.c_str());
 
     if (max_log_files != 0)
