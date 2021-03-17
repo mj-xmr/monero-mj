@@ -56,15 +56,15 @@ if (BUILD_GUI_DEPS)
     endif()
 endif()
 
-set(MONERO_ZLIB z)
+
 #find_library(ZLIB z)
 if (Boost_ZLIB_FOUND)
 	set(MONERO_ZLIB ${Boost_ZLIB_LIBRARY})
-	message(WARNING "ZLIB: ${MONERO_ZLIB}")
 else()
-	#set(MONERO_ZLIB "zlib not founAAAAd")
-	message(WARNING "ZLIB: ${MONERO_ZLIB}")
+	set(MONERO_ZLIB z)
 endif()
+
+message(WARNING "ZLIB: ${MONERO_ZLIB}")
 #find_library(ZLIB_LIBRARY z)
 
 target_link_libraries(epee
