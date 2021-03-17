@@ -52,7 +52,7 @@ jobs:
             ~/.ccache
             contrib/depends/built
             contrib/depends/sdk-sources
-        key: ccache-${{ matrix.toolchain.host }}-${{ github.sha }}
+        key: ccacheAAA-${{ matrix.toolchain.host }}-${{ github.sha }}
         restore-keys: ccache-${{ matrix.toolchain.host }}-
     - name: set apt conf
       run: |

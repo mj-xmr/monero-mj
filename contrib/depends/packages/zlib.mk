@@ -10,5 +10,3 @@ define $(package)_build_cmds
   mkdir -p $(BASEDIR)/sources/$(package) && cp * -rf $(BASEDIR)/sources/$(package)
 endef
 
-
-
