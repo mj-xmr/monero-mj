@@ -1055,7 +1055,7 @@ endif()
 
 include(external/supercop/functions.cmake) # place after setting flags and before src directory inclusion
 add_subdirectory(contrib)
-#add_subdirectory(src)
+add_subdirectory(src)
 
 find_package(PythonInterp)
 if(BUILD_TESTS)
