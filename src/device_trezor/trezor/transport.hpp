@@ -52,6 +52,7 @@
 #include "messages/messages-common.pb.h"
 #include "messages/messages-management.pb.h"
 #include "messages/messages-monero.pb.h"
+#include "misc_log_ex_max.h"
 
 namespace hw {
 namespace trezor {

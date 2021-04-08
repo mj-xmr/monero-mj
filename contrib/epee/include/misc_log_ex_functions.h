@@ -24,11 +24,45 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#ifndef _MISC_LOG_EX_H_FUNCTIONS
+#define _MISC_LOG_EX_H_FUNCTIONS
 
-#ifndef _MISC_LOG_EX_H_
-#define _MISC_LOG_EX_H_
+std::string mlog_get_default_log_path(const char *default_filename);
+void mlog_configure(const std::string &filename_base, bool console, const std::size_t max_log_file_size = MAX_LOG_FILE_SIZE, const std::size_t max_log_files = MAX_LOG_FILES);
+void mlog_set_categories(const char *categories);
+std::string mlog_get_categories();
+void mlog_set_log_level(int level);
+void mlog_set_log(const char *log);
 
-#include "misc_log_ex_max.h"
-//#include "misc_log_ex_min.h" // The final switch
+namespace epee
+{
+namespace debug
+{
+  inline bool get_set_enable_assert(bool set = false, bool v = false)
+  {
+    static bool e = true;
+    if(set)
+      e = v;
+    return e;
+  }
+}
 
-#endif //_MISC_LOG_EX_H_
+enum console_colors
+{
+  console_color_default,
+  console_color_white,
+  console_color_red,
+  console_color_green,
+  console_color_blue,
+  console_color_cyan,
+  console_color_magenta,
+  console_color_yellow
+};
+
+bool is_stdout_a_tty();
+void set_console_color(int color, bool bright);
+void reset_console_color();
+
+}
+
+#endif //_MISC_LOG_EX_H_FUNCTIONS

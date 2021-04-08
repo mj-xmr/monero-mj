@@ -30,6 +30,7 @@
 #include "device_trezor.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include "misc_log_ex_max.h"
 
 namespace hw {
 namespace trezor {

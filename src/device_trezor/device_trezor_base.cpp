@@ -33,6 +33,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/regex.hpp>
+#include "misc_log_ex_max.h"
 
 namespace hw {
 namespace trezor {

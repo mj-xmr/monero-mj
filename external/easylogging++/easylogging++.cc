@@ -15,7 +15,9 @@
 //
 
 #define EASYLOGGING_CC
+
 #include "easylogging++.h"
+//#include "easylogging++_template.h"
 
 #include <atomic>
 #include <unistd.h>
@@ -2936,11 +2938,25 @@ Writer& Writer::construct(int count, const char* loggerIds, ...) {
   return *this;
 }
 
-Writer& Writer::construct(const char *loggerId) {
+Writer& Writer::construct(const char *loggerId) 
+{
   initializeLogger(ELPP->registeredLoggers()->get(loggerId, ELPP->hasFlag(LoggingFlag::CreateLoggerAutomatically)));
   m_messageBuilder.initialize(m_logger);
   return *this;
 }
+
+Writer::Writer(Level level, Color color, const char* file, base::type::LineNumber line,
+         const char* func, base::DispatchAction dispatchAction,
+         base::type::VerboseLevel verboseLevel) :
+    m_msg(nullptr), m_level(level), m_color(color), m_file(file), m_line(line), m_func(func), m_verboseLevel(verboseLevel),
+    m_logger(nullptr), m_proceed(false), m_dispatchAction(dispatchAction) {
+  }
+
+Writer::Writer(LogMessage* msg, base::DispatchAction dispatchAction) :
+    m_msg(msg), m_level(msg != nullptr ? msg->level() : Level::Unknown),
+    m_line(0), m_logger(nullptr), m_proceed(false), m_dispatchAction(dispatchAction) {
+  }
+
 
 void Writer::initializeLogger(const std::string& loggerId, bool lookup, bool needLock) {
   if (lookup) {

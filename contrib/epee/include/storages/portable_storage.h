@@ -28,7 +28,7 @@
 
 #include "portable_storage_base.h"
 #include "portable_storage_val_converters.h"
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 #include "span.h"
 
 #include <boost/mpl/contains.hpp>

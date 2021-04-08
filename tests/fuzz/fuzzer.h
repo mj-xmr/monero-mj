@@ -28,6 +28,7 @@
 
 #include <string>
 #include "file_io_utils.h"
+#include "misc_log_ex_max.h"
 
 #ifdef OSSFUZZ
 

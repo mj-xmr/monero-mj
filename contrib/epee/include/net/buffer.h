@@ -29,7 +29,7 @@
 #pragma once
 
 #include <vector>
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 #include "span.h"
 
 #undef MONERO_DEFAULT_LOG_CATEGORY

@@ -38,6 +38,7 @@
 #include "cryptonote_core/cryptonote_tx_utils.h"
 #include "ringct/rctOps.h"
 #include "cryptonote_config.h"
+#include "misc_log_ex_max.h"
 
 namespace hw {
 

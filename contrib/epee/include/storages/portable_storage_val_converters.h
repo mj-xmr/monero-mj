@@ -34,7 +34,7 @@
 #include "portable_storage_base.h"
 #include "parserse_base_utils.h"
 #include "warnings.h"
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 
 #include <boost/lexical_cast.hpp>
 #include <typeinfo>

@@ -30,11 +30,12 @@
 
 #pragma once
 
+#include "misc_log_ex_min.h"
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/portable_binary_oarchive.hpp>
 #include <boost/archive/portable_binary_iarchive.hpp>
 #include <boost/filesystem/operations.hpp>
-
+#include <fstream>
 
 namespace tools
 {

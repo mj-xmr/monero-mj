@@ -26,7 +26,7 @@
 
 #pragma once
 
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 #include "string_tools.h"
 #include <atomic>
 #include <condition_variable>
@@ -37,6 +37,10 @@
 #ifdef __OpenBSD__
 #include <stdio.h>
 #endif
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
+
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>

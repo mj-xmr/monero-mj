@@ -34,7 +34,7 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 //#include "threads_helper.h"
 #include "syncobj.h"
 #define ENABLE_PROFILING

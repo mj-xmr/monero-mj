@@ -66,7 +66,7 @@ namespace daemonizer
     , "Run non-interactive"
     };
 
-    std::string get_argument_string(int argc, char const * argv[])
+    inline std::string get_argument_string(int argc, char const * argv[])
     {
       std::string result = "";
       for (int i = 1; i < argc; ++i)
@@ -75,6 +75,7 @@ namespace daemonizer
       }
       return result;
     }
+
   }
 
   inline void init_options(

@@ -28,7 +28,9 @@
 
 #pragma once
 
+#include "misc_log_ex_min.h"
 #include <type_traits>
+#include <limits>
 
 namespace
 {

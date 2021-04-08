@@ -33,6 +33,7 @@
 #include "portable_storage_template_helper.h"
 #include "net/http_base.h"
 #include "net/http_server_handlers_map2.h"
+#include "misc_log_ex_max.h"
 
 namespace epee
 {

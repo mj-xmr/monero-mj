@@ -31,7 +31,7 @@
 #include <boost/filesystem.hpp>
 #include "gtest/gtest.h"
 #include "file_io_utils.h"
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 
 static std::string log_filename;
 

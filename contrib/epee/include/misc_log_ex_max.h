@@ -24,11 +24,49 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#ifndef _MISC_LOG_EX_H_MAX
+//#define _MISC_LOG_EX_H_MAX // Intentionally left commented out, as this header is supposed to redefine the mactos
 
-#ifndef _MISC_LOG_EX_H_
-#define _MISC_LOG_EX_H_
+#ifdef __cplusplus
 
-#include "misc_log_ex_max.h"
-//#include "misc_log_ex_min.h" // The final switch
+#include <string>
+
+#include "easylogging++.h"
+
+#include "misc_log_ex_defaults.h"
+
+#ifdef MCLOG_TYPE
+    #undef MCLOG_TYPE
+#endif // MCLOG_TYPE
+#define MCLOG_TYPE(level, cat, color, type, x) do { \
+    if (el::Loggers::allowed(level, cat)) { \
+      el::base::Writer(level, color, __FILE__, __LINE__, ELPP_FUNC, type).construct(cat) << x; \
+    } \
+  } while (0)
+
+#include "misc_log_ex_common.h"
+
+extern "C"
+{
+
+#endif
+
+#ifdef __GNUC__
+#define ATTRIBUTE_PRINTF __attribute__((format(printf, 2, 3)))
+#else
+#define ATTRIBUTE_PRINTF
+#endif
+
+bool merror(const char *category, const char *format, ...) ATTRIBUTE_PRINTF;
+bool mwarning(const char *category, const char *format, ...) ATTRIBUTE_PRINTF;
+bool minfo(const char *category, const char *format, ...) ATTRIBUTE_PRINTF;
+bool mdebug(const char *category, const char *format, ...) ATTRIBUTE_PRINTF;
+bool mtrace(const char *category, const char *format, ...) ATTRIBUTE_PRINTF;
+
+#ifdef __cplusplus
+
+}
+
+#endif
 
 #endif //_MISC_LOG_EX_H_

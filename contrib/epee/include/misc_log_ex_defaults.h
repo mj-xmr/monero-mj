@@ -24,11 +24,15 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#ifndef _MISC_LOG_EX_H_DEFAULTS
+#define _MISC_LOG_EX_H_DEFAULTS
 
-#ifndef _MISC_LOG_EX_H_
-#define _MISC_LOG_EX_H_
+#undef MONERO_DEFAULT_LOG_CATEGORY
+#define MONERO_DEFAULT_LOG_CATEGORY "default"
 
-#include "misc_log_ex_max.h"
-//#include "misc_log_ex_min.h" // The final switch
+#undef MAX_LOG_FILE_SIZE
+#define MAX_LOG_FILE_SIZE 104850000 // 100 MB - 7600 bytes
+#undef MAX_LOG_FILES
+#define MAX_LOG_FILES 50
 
-#endif //_MISC_LOG_EX_H_
+#endif //_MISC_LOG_EX_H_DEFAULTS

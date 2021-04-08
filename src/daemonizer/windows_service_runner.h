@@ -42,7 +42,7 @@
 namespace windows {
   namespace
   {
-    std::vector<char> vecstring(std::string const & str)
+    inline std::vector<char> vecstring(std::string const & str)
     {
       std::vector<char> result{str.begin(), str.end()};
       result.push_back('\0');

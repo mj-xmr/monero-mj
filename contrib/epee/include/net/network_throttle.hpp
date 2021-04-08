@@ -52,7 +52,7 @@
 #include "syncobj.h"
 
 #include "net/net_utils_base.h" 
-#include "misc_log_ex.h" 
+#include "misc_log_ex_min.h"
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/uuid/random_generator.hpp>

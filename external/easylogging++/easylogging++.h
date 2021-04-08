@@ -16,6 +16,8 @@
 
 #ifndef EASYLOGGINGPP_H
 #define EASYLOGGINGPP_H
+#include "easylogging++_base.h"
+
 #include "ea_config.h"
 // Compilers and C++0x/C++11 Evaluation
 #if __cplusplus >= 201103L
@@ -296,6 +298,7 @@ ELPP_INTERNAL_DEBUGGING_OUT_INFO << ELPP_INTERNAL_DEBUGGING_MSG(internalInfoStre
 #  define ELPP_THREADING_ENABLED 0
 #endif  // defined(ELPP_THREAD_SAFE) || ELPP_ASYNC_LOGGING
 // Function macro ELPP_FUNC
+/*
 #undef ELPP_FUNC
 #if ELPP_COMPILER_MSVC  // Visual C++
 #  define ELPP_FUNC __FUNCSIG__
@@ -312,6 +315,7 @@ ELPP_INTERNAL_DEBUGGING_OUT_INFO << ELPP_INTERNAL_DEBUGGING_MSG(internalInfoStre
 #    define ELPP_FUNC ""
 #  endif  // defined(__func__)
 #endif  // defined(_MSC_VER)
+*/
 #undef ELPP_VARIADIC_TEMPLATES_SUPPORTED
 // Keep following line commented until features are fixed
 #define ELPP_VARIADIC_TEMPLATES_SUPPORTED \
@@ -554,9 +558,9 @@ typedef std::ostream ostream_t;
 #else
 #  define ELPP_COUT_LINE(logLine) logLine << std::flush
 #endif // defined(ELPP_CUSTOM_COUT_LINE)
-typedef unsigned int EnumType;
-typedef unsigned short VerboseLevel;
-typedef unsigned long int LineNumber;
+//typedef unsigned int EnumType;
+//typedef unsigned short VerboseLevel;
+//typedef unsigned long int LineNumber;
 typedef base::Storage *StoragePointer;
 typedef std::shared_ptr<LogDispatchCallback> LogDispatchCallbackPtr;
 typedef std::shared_ptr<PerformanceTrackingCallback> PerformanceTrackingCallbackPtr;
@@ -584,6 +588,7 @@ class StaticClass {
   StaticClass& operator=(const StaticClass&);
 };
 }  // namespace base
+/*
 /// @brief Represents enumeration for severity level used to determine level of logging
 ///
 /// @detail With Easylogging++, developers may disable or enable any level regardless of
@@ -617,6 +622,7 @@ enum class Color : base::type::EnumType {
   Magenta,
   Cyan,
 };
+*/
 } // namespace el
 namespace std {
 template<> struct hash<el::Level> {
@@ -2173,9 +2179,9 @@ class RegisteredHitCounters : public base::utils::RegistryWithPred<base::HitCoun
   }
 };
 /// @brief Action to be taken for dispatching
-enum class DispatchAction : base::type::EnumType {
-  None = 1, NormalLog = 2, SysLog = 4, FileOnlyLog = 8,
-};
+//enum class DispatchAction : base::type::EnumType {
+//  None = 1, NormalLog = 2, SysLog = 4, FileOnlyLog = 8,
+//};
 }  // namespace base
 template <typename T>
 class Callback : protected base::threading::ThreadSafe {
@@ -3252,20 +3258,15 @@ class NullWriter : base::NoCopy {
     return true;
   }
 };
+
 /// @brief Main entry point of each logging
 class Writer : base::NoCopy {
  public:
   Writer(Level level, Color color, const char* file, base::type::LineNumber line,
          const char* func, base::DispatchAction dispatchAction = base::DispatchAction::NormalLog,
-         base::type::VerboseLevel verboseLevel = 0) :
-    m_msg(nullptr), m_level(level), m_color(color), m_file(file), m_line(line), m_func(func), m_verboseLevel(verboseLevel),
-    m_logger(nullptr), m_proceed(false), m_dispatchAction(dispatchAction) {
-  }
+         base::type::VerboseLevel verboseLevel = 0);
 
-  Writer(LogMessage* msg, base::DispatchAction dispatchAction = base::DispatchAction::NormalLog) :
-    m_msg(msg), m_level(msg != nullptr ? msg->level() : Level::Unknown),
-    m_line(0), m_logger(nullptr), m_proceed(false), m_dispatchAction(dispatchAction) {
-  }
+  Writer(LogMessage* msg, base::DispatchAction dispatchAction = base::DispatchAction::NormalLog);
 
   virtual ~Writer(void) {
     processDispatch();
@@ -3309,6 +3310,7 @@ class Writer : base::NoCopy {
   Writer& construct(Logger* logger, bool needLock = true);
   Writer& construct(int count, const char* loggerIds, ...);
   Writer& construct(const char *loggerId);
+  
  protected:
   LogMessage* m_msg;
   Level m_level;

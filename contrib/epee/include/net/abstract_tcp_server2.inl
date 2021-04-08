@@ -53,6 +53,8 @@
 #include <functional>
 #include <random>
 
+#include "misc_log_ex_max.h"
+
 #undef MONERO_DEFAULT_LOG_CATEGORY
 #define MONERO_DEFAULT_LOG_CATEGORY "net"
 

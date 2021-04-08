@@ -29,7 +29,7 @@
 #pragma once 
 
 #include "misc_language.h"
-#include "misc_log_ex.h"
+#include "misc_log_ex_min.h"
 #include "portable_storage_base.h"
 #include "portable_storage_bin_utils.h"
 

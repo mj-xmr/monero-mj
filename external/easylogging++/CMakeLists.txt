@@ -40,6 +40,8 @@ monero_find_all_headers(EASYLOGGING_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_library(easylogging
   easylogging++.cc
+  easylogging++_base.cc
+  WriterBasic.cc
   ${EASYLOGGING_HEADERS}
   )
 
