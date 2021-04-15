@@ -2,16 +2,41 @@ name: ci/gh-actions/cli
 
 on: [push, pull_request]
 
+action_checkout: &ACTION_CHECKOUT
+  uses: actions/checkout@v1
+  with:
+    submodules: recursive
+
+env_unix: &ENV_UNIX
+  env:
+    CCACHE_COMPRESS: 1
+    CCACHE_TEMPDIR: /tmp/.ccache-temp
+
+remove_boost: &REMOVE_BOOST
+  name: remove bundled boost
+  run: sudo rm -rf /usr/local/share/boost
+
+apt_set_conf: &APT_SET_CONF
+  name: set apt conf
+  run: |
+        echo "Acquire::Retries \"3\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+        echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+        echo "Acquire::ftp::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+
+apt_update: &APT_UPDATE
+  name: update apt
+  run: sudo apt update
+
+apt_install_linux: &APT_INSTALL_LINUX
+  name: install monero dependencies
+  run: sudo apt -y install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libzmq3-dev libsodium-dev libhidapi-dev libnorm-dev libusb-1.0-0-dev libpgm-dev libprotobuf-dev protobuf-compiler ccache
+
 jobs:
   build-macos:
     runs-on: macOS-latest
-    env:
-      CCACHE_COMPRESS: 1
-      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    <<: *ENV_UNIX
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: recursive
+    - <<: *ACTION_CHECKOUT
     - uses: actions/cache@v2
       with:
         path: /Users/runner/Library/Caches/ccache
@@ -34,9 +59,7 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: recursive
+    - <<: *ACTION_CHECKOUT
     - uses: actions/cache@v2
       with:
         path: C:\Users\runneradmin\.ccache
@@ -53,29 +76,18 @@ jobs:
 
   build-ubuntu:
     runs-on: ubuntu-latest
-    env:
-      CCACHE_COMPRESS: 1
-      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    <<: *ENV_UNIX
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: recursive
+    - <<: *ACTION_CHECKOUT
     - uses: actions/cache@v2
       with:
         path: ~/.ccache
         key: ccache-ubuntu-build-${{ github.sha }}
         restore-keys: ccache-ubuntu-build-
-    - name: remove bundled boost
-      run: sudo rm -rf /usr/local/share/boost
-    - name: set apt conf
-      run: |
-        echo "Acquire::Retries \"3\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::ftp::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-    - name: update apt
-      run: sudo apt update
-    - name: install monero dependencies
-      run: sudo apt -y install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libzmq3-dev libsodium-dev libhidapi-dev libnorm-dev libusb-1.0-0-dev libpgm-dev libprotobuf-dev protobuf-compiler ccache
+    - <<: *REMOVE_BOOST
+    - <<: *APT_SET_CONF
+    - <<: *APT_UPDATE
+    - <<: *APT_INSTALL_LINUX
     - name: build
       run: |
         ccache --max-size=150M
@@ -83,29 +95,18 @@ jobs:
 
   libwallet-ubuntu:
     runs-on: ubuntu-latest
-    env:
-      CCACHE_COMPRESS: 1
-      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    <<: *ENV_UNIX
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: recursive
+    - <<: *ACTION_CHECKOUT
     - uses: actions/cache@v2
       with:
         path: ~/.ccache
         key: ccache-ubuntu-libwallet-${{ github.sha }}
         restore-keys: ccache-ubuntu-libwallet-
-    - name: remove bundled boost
-      run: sudo rm -rf /usr/local/share/boost
-    - name: set apt conf
-      run: |
-        echo "Acquire::Retries \"3\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::ftp::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-    - name: update apt
-      run: sudo apt update
-    - name: install monero dependencies
-      run: sudo apt -y install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libzmq3-dev libsodium-dev libhidapi-dev libnorm-dev libusb-1.0-0-dev libpgm-dev libprotobuf-dev protobuf-compiler ccache
+    - <<: *REMOVE_BOOST
+    - <<: *APT_SET_CONF
+    - <<: *APT_UPDATE
+    - <<: *APT_INSTALL_LINUX
     - name: build
       run: |
         ccache --max-size=150M
@@ -115,32 +116,15 @@ jobs:
   test-ubuntu:
     needs: build-ubuntu
     runs-on: ubuntu-latest
-    env:
-      CCACHE_COMPRESS: 1
-      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    <<: *ENV_UNIX
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: recursive
-    - name: ccache
-      uses: actions/cache@v2
-      with:
-        path: ~/.ccache
-        key: test-ubuntu-ccache-${{ github.sha }}
-        restore-keys: test-ubuntu-ccache-
-    - name: remove bundled boost
-      run: sudo rm -rf /usr/local/share/boost
-    - name: set apt conf
-      run: |
-        echo "Acquire::Retries \"3\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-        echo "Acquire::ftp::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-    - name: update apt
-      run: sudo apt update
-    - name: install monero dependencies
-      run: sudo apt -y install build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libzmq3-dev libsodium-dev libhidapi-dev libnorm-dev libusb-1.0-0-dev libpgm-dev libprotobuf-dev protobuf-compiler ccache
-    - name: install Python dependencies
-      run: pip install requests psutil monotonic
+    - <<: *ACTION_CHECKOUT
+    - <<: *REMOVE_BOOST
+    - <<: *APT_SET_CONF
+    - <<: *APT_UPDATE
+    - <<: *APT_INSTALL_LINUX
+    - name: install requests
+      run: pip install requests
     - name: tests
       env:
         CTEST_OUTPUT_ON_FAILURE: ON
