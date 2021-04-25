@@ -154,6 +154,15 @@ function (monero_set_target_no_relink target)
   endif()
 endfunction()
 
+option(STRIP_TARGETS "Strip symbols from targets?" OFF)
+function (monero_set_target_strip target)
+  if (STRIP_TARGETS)
+    set_target_properties("${target}" PROPERTIES LINK_FLAGS_RELEASE -s)
+    set_target_properties("${target}" PROPERTIES LINK_FLAGS_DEBUG -s)
+    # Stripping from Debug might make sense if you're low on disk space, but want to test if debug version builds properly.
+  endif()
+endfunction()
+
 function (monero_add_minimal_executable name)
   source_group("${name}"
     FILES
@@ -161,7 +170,8 @@ function (monero_add_minimal_executable name)
 
   add_executable("${name}"
     ${ARGN})
-    monero_set_target_no_relink( ${name} )
+    monero_set_target_no_relink("${name}")
+    monero_set_target_strip    ("${name}")
 endfunction()
 
 if(NOT CMAKE_BUILD_TYPE)
