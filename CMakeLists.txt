@@ -154,7 +154,7 @@ function (monero_set_target_no_relink target)
   endif()
 endfunction()
 
-option(STRIP_TARGETS "Strip symbols from targets?" OFF)
+option(STRIP_TARGETS "Strip symbols from targets?" ON)
 function (monero_set_target_strip target)
   if (STRIP_TARGETS)
     set_target_properties("${target}" PROPERTIES LINK_FLAGS_RELEASE -s)
