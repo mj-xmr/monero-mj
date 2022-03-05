@@ -30,31 +30,24 @@
 
 #pragma once
 
-#include <ctime>
+#include "checkpoints/checkpoints.h"
+#include "cryptonote_basic/fwd.h"
+#include "cryptonote_core/i_core_events.h"
+#include "cryptonote_protocol/enums.h"
+#include "common/command_line.h"
+#include "cryptonote_basic/miner.h"
+#include "warnings.h"
+#include "crypto/hash.h"
+#include "span.h"
+#include "rpc/fwd.h"
+#include "rpc/message_data_structs.h"
+#include "rpc/core_rpc_server_commands_defs.h"
 
 #include <boost/function.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-#include "checkpoints/checkpoints.h"
-#include "cryptonote_basic/fwd.h"
-#include "cryptonote_core/i_core_events.h"
-#include "cryptonote_protocol/cryptonote_protocol_handler_common.h"
-#include "cryptonote_protocol/enums.h"
-//#include "storages/portable_storage_template_helper.h"
-//#include "common/download.h"
-#include "common/command_line.h"
-//#include "tx_pool.h"
-//#include "blockchain.h"
-#include "cryptonote_basic/miner.h"
-//#include "cryptonote_basic/connection_context.h"
-#include "warnings.h"
-#include "crypto/hash.h"
-#include "span.h"
-#include "rpc/fwd.h"
-
-#include "rpc/message_data_structs.h"
-#include "rpc/core_rpc_server_commands_defs.h"
+#include <ctime>
 
 PUSH_WARNINGS
 DISABLE_VS_WARNINGS(4355)
@@ -63,6 +56,8 @@ enum { HAVE_BLOCK_MAIN_CHAIN, HAVE_BLOCK_ALT_CHAIN, HAVE_BLOCK_INVALID };
 
 namespace cryptonote
 {
+    struct i_cryptonote_protocol;
+    struct cryptonote_connection_context;
   class Blockchain;
    enum class relay_category : uint8_t;
    namespace rpc
