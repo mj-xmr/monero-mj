@@ -38,7 +38,7 @@
 
 namespace
 {
-  typedef nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core> > t_p2p;
+  typedef nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> > t_p2p;
 }  // anonymous namespace
 
 namespace cryptonote
@@ -51,7 +51,7 @@ class DaemonHandler : public RpcHandler
 {
   public:
 
-    DaemonHandler(cryptonote::core& c, t_p2p& p2p);
+    DaemonHandler(cryptonote::core_abstract& c, t_p2p& p2p);
 
     ~DaemonHandler() { }
 
@@ -141,7 +141,7 @@ class DaemonHandler : public RpcHandler
 
     void handleTxBlob(std::string&& tx_blob, bool relay, SendRawTx::Response& res);
 
-    cryptonote::core& m_core;
+    cryptonote::core_abstract& m_core;
     t_p2p& m_p2p;
 };
 

@@ -40,6 +40,7 @@
 #include "cryptonote_basic/cryptonote_format_utils.h"
 #include "cryptonote_basic/blobdatatype.h"
 #include "ringct/rctSigs.h"
+#include "p2p/net_node.inl"
 #include "version.h"
 
 namespace cryptonote
@@ -109,7 +110,7 @@ namespace rpc
     };
   } // anonymous
 
-  DaemonHandler::DaemonHandler(cryptonote::core& c, t_p2p& p2p)
+  DaemonHandler::DaemonHandler(cryptonote::core_abstract& c, t_p2p& p2p)
     : m_core(c), m_p2p(p2p)
   {
     const auto last_sorted = std::is_sorted_until(std::begin(handlers), std::end(handlers));

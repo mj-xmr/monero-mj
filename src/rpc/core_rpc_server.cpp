@@ -47,6 +47,7 @@ using namespace epee;
 #include "cryptonote_basic/cryptonote_basic_impl.h"
 #include "cryptonote_basic/merge_mining.h"
 #include "cryptonote_core/tx_sanity_check.h"
+#include "cryptonote_protocol/cryptonote_protocol_handler.inl"
 #include "misc_language.h"
 #include "net/parse.h"
 #include "storages/http_abstract_invoke.h"
@@ -57,6 +58,7 @@ using namespace epee;
 #include "rpc/rpc_payment_signature.h"
 #include "core_rpc_server_error_codes.h"
 #include "p2p/net_node.h"
+#include "p2p/net_node.inl"
 #include "version.h"
 
 #undef MONERO_DEFAULT_LOG_CATEGORY
@@ -165,8 +167,8 @@ namespace cryptonote
   }
   //------------------------------------------------------------------------------------------------------------------------------
   core_rpc_server::core_rpc_server(
-      core& cr
-    , nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core> >& p2p
+      core_abstract& cr
+    , nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> >& p2p
     )
     : m_core(cr)
     , m_p2p(p2p)

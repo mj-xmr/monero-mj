@@ -81,8 +81,8 @@ namespace cryptonote
     typedef epee::net_utils::connection_context_base connection_context;
 
     core_rpc_server(
-        core& cr
-      , nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core> >& p2p
+        core_abstract& cr
+      , nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> >& p2p
       );
     ~core_rpc_server();
 
@@ -290,8 +290,8 @@ private:
     bool get_block_template(const account_public_address &address, const crypto::hash *prev_block, const cryptonote::blobdata &extra_nonce, size_t &reserved_offset, cryptonote::difficulty_type &difficulty, uint64_t &height, uint64_t &expected_reward, block &b, uint64_t &seed_height, crypto::hash &seed_hash, crypto::hash &next_seed_hash, epee::json_rpc::error &error_resp);
     bool check_payment(const std::string &client, uint64_t payment, const std::string &rpc, bool same_ts, std::string &message, uint64_t &credits, std::string &top_hash);
     
-    core& m_core;
-    nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core> >& m_p2p;
+    core_abstract& m_core;
+    nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> >& m_p2p;
     boost::shared_mutex m_bootstrap_daemon_mutex;
     std::unique_ptr<bootstrap_daemon> m_bootstrap_daemon;
     std::string m_bootstrap_daemon_proxy;
@@ -307,4 +307,4 @@ private:
   };
 }
 
-BOOST_CLASS_VERSION(nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core> >, 1);
+BOOST_CLASS_VERSION(nodetool::node_server<cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> >, 1);

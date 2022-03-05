@@ -29,7 +29,7 @@
 #pragma once
 
 #include "blocks/blocks.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "cryptonote_core/cryptonote_core_abstract.h"
 #include "cryptonote_protocol/cryptonote_protocol_handler.h"
 #include "misc_log_ex.h"
 #include "daemon/command_line_args.h"
@@ -45,11 +45,11 @@ class t_core final
 public:
   static void init_options(boost::program_options::options_description & option_spec)
   {
-    cryptonote::core::init_options(option_spec);
+    cryptonote::core_abstract::init_options(option_spec);
   }
 private:
-  typedef cryptonote::t_cryptonote_protocol_handler<cryptonote::core> t_protocol_raw;
-  cryptonote::core m_core;
+  typedef cryptonote::t_cryptonote_protocol_handler<cryptonote::core_abstract> t_protocol_raw;
+  std::unique_ptr<cryptonote::core_abstract> m_core;
   // TEMPORARY HACK - Yes, this creates a copy, but otherwise the original
   // variable map could go out of scope before the run method is called
   boost::program_options::variables_map const m_vm_HACK;
@@ -57,7 +57,7 @@ public:
   t_core(
       boost::program_options::variables_map const & vm
     )
-    : m_core{nullptr}
+    : m_core{cryptonote::core_abstract::create(nullptr)}
     , m_vm_HACK{vm}
   {
     //initialize core here
@@ -74,7 +74,7 @@ public:
     }
 
     const bool allow_dns = command_line::is_arg_defaulted(vm, daemon_args::arg_proxy) || command_line::get_arg(vm, daemon_args::arg_proxy_allow_dns_leaks);
-    if (!m_core.init(m_vm_HACK, nullptr, get_checkpoints, allow_dns))
+    if (!m_core->init(m_vm_HACK, nullptr, get_checkpoints, allow_dns))
     {
       throw std::runtime_error("Failed to initialize core");
     }
@@ -84,7 +84,7 @@ public:
   // TODO - get rid of circular dependencies in internals
   void set_protocol(t_protocol_raw & protocol)
   {
-    m_core.set_cryptonote_protocol(&protocol);
+    m_core->set_cryptonote_protocol(&protocol);
   }
 
   bool run()
@@ -92,17 +92,17 @@ public:
     return true;
   }
 
-  cryptonote::core & get()
+  cryptonote::core_abstract & get()
   {
-    return m_core;
+    return *m_core;
   }
 
   ~t_core()
   {
     MGINFO("Deinitializing core...");
     try {
-      m_core.deinit();
-      m_core.set_cryptonote_protocol(nullptr);
+      m_core->deinit();
+      m_core->set_cryptonote_protocol(nullptr);
     } catch (...) {
       MERROR("Failed to deinitialize core...");
     }

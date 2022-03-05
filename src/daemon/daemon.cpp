@@ -47,6 +47,8 @@
 #include "daemon/command_server.h"
 #include "daemon/command_line_args.h"
 #include "net/net_ssl.h"
+#include "cryptonote_protocol/cryptonote_protocol_handler.inl"
+#include "p2p/net_node.inl"
 #include "version.h"
 
 using namespace epee;
