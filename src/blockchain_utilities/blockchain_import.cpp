@@ -42,7 +42,7 @@
 #include "serialization/binary_utils.h" // dump_binary(), parse_binary()
 #include "serialization/json_utils.h" // dump_json()
 #include "include_base_utils.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "cryptonote_core/cryptonote_core_abstract.h"
 
 #undef MONERO_DEFAULT_LOG_CATEGORY
 #define MONERO_DEFAULT_LOG_CATEGORY "bcutil"
@@ -92,7 +92,7 @@ int get_db_flags_from_mode(const std::string& db_mode)
   return db_flags;
 }
 
-int pop_blocks(cryptonote::core& core, int num_blocks)
+int pop_blocks(cryptonote::core_abstract& core, int num_blocks)
 {
   bool use_batch = opt_batch;
 
@@ -127,7 +127,7 @@ int pop_blocks(cryptonote::core& core, int num_blocks)
   return num_blocks;
 }
 
-int check_flush(cryptonote::core &core, std::vector<block_complete_entry> &blocks, bool force)
+int check_flush(cryptonote::core_abstract &core, std::vector<block_complete_entry> &blocks, bool force)
 {
   if (blocks.empty())
     return 0;
@@ -218,7 +218,7 @@ int check_flush(cryptonote::core &core, std::vector<block_complete_entry> &block
   return 0;
 }
 
-int import_from_file(cryptonote::core& core, const std::string& import_file_path, uint64_t block_stop=0)
+int import_from_file(cryptonote::core_abstract& core, const std::string& import_file_path, uint64_t block_stop=0)
 {
   // Reset stats, in case we're using newly created db, accumulating stats
   // from addition of genesis block.
@@ -617,7 +617,7 @@ int main(int argc, char* argv[])
 
   po::options_description desc_options("Allowed options");
   desc_options.add(desc_cmd_only).add(desc_cmd_sett);
-  cryptonote::core::init_options(desc_options);
+  cryptonote::core_abstract::init_options(desc_options);
 
   po::variables_map vm;
   bool r = command_line::handle_error_helper(desc_options, [&]()
@@ -728,7 +728,8 @@ int main(int argc, char* argv[])
   }
 
   cryptonote::cryptonote_protocol_stub pr; //TODO: stub only for this kind of test, make real validation of relayed objects
-  cryptonote::core core(&pr);
+  std::unique_ptr<cryptonote::core_abstract> pcore = cryptonote::core_abstract::create(&pr);
+  cryptonote::core_abstract & core = *pcore;
 
   try
   {

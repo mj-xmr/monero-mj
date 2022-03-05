@@ -30,7 +30,7 @@
 #include "blocksdat_file.h"
 #include "common/command_line.h"
 #include "cryptonote_core/tx_pool.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "cryptonote_core/cryptonote_core_abstract.h"
 #include "blockchain_db/blockchain_db.h"
 #include "version.h"
 

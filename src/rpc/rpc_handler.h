@@ -37,7 +37,7 @@
 
 namespace cryptonote
 {
-class core;
+class core_abstract;
 
 namespace rpc
 {
