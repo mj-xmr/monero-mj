@@ -39,6 +39,7 @@ set(cryptonote_core_private_headers
   blockchain_storage_boost_serialization.h
   blockchain.h
   cryptonote_core.h
+cryptonote_core_abstract.h # TODO: Remove me
   tx_pool.h
   tx_sanity_check.h
   cryptonote_tx_utils.h)
