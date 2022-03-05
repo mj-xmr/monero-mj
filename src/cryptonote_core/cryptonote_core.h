@@ -266,16 +266,6 @@ namespace cryptonote
      const miner& get_miner()const{return m_miner;}
 
      /**
-      * @brief adds command line options to the given options set
-      *
-      * As of now, there are no command line options specific to core,
-      * so this function simply returns.
-      *
-      * @param desc return-by-reference the command line options set to add to
-      */
-     static void init_options(boost::program_options::options_description& desc);
-
-     /**
       * @brief initializes the core as needed
       *
       * This function initializes the transaction pool, the Blockchain, and

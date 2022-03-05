@@ -46,10 +46,10 @@ public:
   bool check_tx_verification_context(const cryptonote::tx_verification_context& tvc, bool tx_added, size_t event_idx, const cryptonote::transaction& tx);
   bool check_block_verification_context(const cryptonote::block_verification_context& bvc, size_t event_idx, const cryptonote::block& block);
 
-  bool mark_last_valid_block(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool mark_invalid_tx(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool mark_invalid_block(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool check_double_spend(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_last_valid_block(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_invalid_tx(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_invalid_block(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_double_spend(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
 private:
   cryptonote::block m_last_valid_block;
@@ -133,7 +133,7 @@ public:
 
   bool generate(std::vector<test_event_entry>& events) const;
 
-  bool check_double_spend(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_double_spend(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 };
 
 

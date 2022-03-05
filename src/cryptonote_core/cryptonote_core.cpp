@@ -73,6 +73,7 @@ DISABLE_VS_WARNINGS(4355)
 
 namespace cryptonote
 {
+    /*
   const command_line::arg_descriptor<bool, false> arg_testnet_on  = {
     "testnet"
   , "Run on testnet. The wallet must be launched with --testnet flag."
@@ -223,6 +224,7 @@ namespace cryptonote
   , "Keep alternative blocks on restart"
   , false
   };
+  */
 
   //-----------------------------------------------------------------------------------------------
   core::core(i_cryptonote_protocol* pprotocol):
@@ -318,6 +320,7 @@ namespace cryptonote
       tools::download_cancel(handle);
   }
   //-----------------------------------------------------------------------------------
+  /*
   void core::init_options(boost::program_options::options_description& desc)
   {
     command_line::add_arg(desc, arg_data_dir);
@@ -353,6 +356,7 @@ namespace cryptonote
     miner::init_options(desc);
     BlockchainDB::init_options(desc);
   }
+  */
   //-----------------------------------------------------------------------------------------------
   bool core::handle_command_line(const boost::program_options::variables_map& vm)
   {

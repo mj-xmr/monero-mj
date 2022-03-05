@@ -41,8 +41,8 @@ public:
 
   bool generate(std::vector<test_event_entry>& events) const;
 
-  bool check_split_not_switched(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool check_split_switched(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_split_not_switched(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_split_switched(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
 private:
   std::vector<cryptonote::block> m_chain_1;

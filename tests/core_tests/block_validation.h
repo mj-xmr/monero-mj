@@ -48,7 +48,7 @@ public:
       return !bvc.m_verifivation_failed;
   }
 
-  bool check_block_purged(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+  bool check_block_purged(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
   {
     DEFINE_TESTS_ERROR_CONTEXT("gen_block_verification_base::check_block_purged");
 
@@ -68,7 +68,7 @@ struct gen_block_accepted_base : public test_chain_unit_base
     REGISTER_CALLBACK("check_block_accepted", gen_block_accepted_base::check_block_accepted);
   }
 
-  bool check_block_accepted(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
+  bool check_block_accepted(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
   {
     DEFINE_TESTS_ERROR_CONTEXT("gen_block_accepted_base::check_block_accepted");
 
@@ -200,8 +200,8 @@ struct gen_block_invalid_binary_format : public test_chain_unit_base
   gen_block_invalid_binary_format();
   bool generate(std::vector<test_event_entry>& events) const;
   bool check_block_verification_context(const cryptonote::block_verification_context& bvc, size_t event_idx, const cryptonote::block& /*blk*/);
-  bool check_all_blocks_purged(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool corrupt_blocks_boundary(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_all_blocks_purged(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool corrupt_blocks_boundary(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
 private:
   size_t m_corrupt_blocks_begin_idx;

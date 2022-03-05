@@ -85,6 +85,25 @@ namespace cryptonote
   extern const command_line::arg_descriptor<bool> arg_offline;
   extern const command_line::arg_descriptor<size_t> arg_block_download_max_size;
   extern const command_line::arg_descriptor<bool> arg_sync_pruned_blocks;
+  extern const command_line::arg_descriptor<bool> arg_keep_fakechain;
+  extern const command_line::arg_descriptor<bool> arg_disable_dns_checkpoints;
+  extern const command_line::arg_descriptor<bool> arg_test_drop_download;
+  extern const command_line::arg_descriptor<uint64_t> arg_test_drop_download_height;
+  extern const command_line::arg_descriptor<int> arg_test_dbg_lock_sleep;
+  extern const command_line::arg_descriptor<bool> arg_dns_checkpoints;
+  extern const command_line::arg_descriptor<uint64_t> arg_fast_block_sync;
+  extern const command_line::arg_descriptor<uint64_t> arg_prep_blocks_threads;
+  extern const command_line::arg_descriptor<uint64_t> arg_show_time_stats;
+  extern const command_line::arg_descriptor<size_t> arg_block_sync_size;
+  extern const command_line::arg_descriptor<std::string> arg_check_updates;
+  extern const command_line::arg_descriptor<bool> arg_fluffy_blocks;
+  extern const command_line::arg_descriptor<bool> arg_no_fluffy_blocks;
+  extern const command_line::arg_descriptor<size_t> arg_max_txpool_weight;
+  extern const command_line::arg_descriptor<std::string> arg_block_notify;
+  extern const command_line::arg_descriptor<bool> arg_prune_blockchain;
+  extern const command_line::arg_descriptor<std::string> arg_reorg_notify;
+  extern const command_line::arg_descriptor<std::string> arg_block_rate_notify;
+  extern const command_line::arg_descriptor<bool> arg_keep_alt_blocks;
 
   /************************************************************************/
   /*                                                                      */
@@ -247,7 +266,7 @@ namespace cryptonote
       *
       * @param desc return-by-reference the command line options set to add to
       */
-     //static void init_options(boost::program_options::options_description& desc);
+     static void init_options(boost::program_options::options_description& desc);
 
      /**
       * @brief initializes the core as needed

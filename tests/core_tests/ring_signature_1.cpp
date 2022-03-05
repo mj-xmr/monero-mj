@@ -94,7 +94,7 @@ bool gen_ring_signature_1::generate(std::vector<test_event_entry>& events) const
   return true;
 }
 
-bool gen_ring_signature_1::check_balances_1(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_1::check_balances_1(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_1::check_balances_1");
 
@@ -115,7 +115,7 @@ bool gen_ring_signature_1::check_balances_1(cryptonote::core& c, size_t ev_index
   return true;
 }
 
-bool gen_ring_signature_1::check_balances_2(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_1::check_balances_2(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_1::check_balances_2");
 
@@ -175,7 +175,7 @@ bool gen_ring_signature_2::generate(std::vector<test_event_entry>& events) const
   return true;
 }
 
-bool gen_ring_signature_2::check_balances_1(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_2::check_balances_1(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_2::check_balances_1");
 
@@ -196,7 +196,7 @@ bool gen_ring_signature_2::check_balances_1(cryptonote::core& c, size_t ev_index
   return true;
 }
 
-bool gen_ring_signature_2::check_balances_2(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_2::check_balances_2(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_2::check_balances_2");
 
@@ -285,7 +285,7 @@ bool gen_ring_signature_big::generate(std::vector<test_event_entry>& events) con
   return true;
 }
 
-bool gen_ring_signature_big::check_balances_1(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_big::check_balances_1(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_big::check_balances_1");
 
@@ -313,7 +313,7 @@ bool gen_ring_signature_big::check_balances_1(cryptonote::core& c, size_t ev_ind
   return true;
 }
 
-bool gen_ring_signature_big::check_balances_2(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events)
+bool gen_ring_signature_big::check_balances_2(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_ring_signature_big::check_balances_2");
 

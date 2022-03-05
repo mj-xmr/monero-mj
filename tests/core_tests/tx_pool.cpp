@@ -52,19 +52,19 @@ txpool_base::txpool_base()
   REGISTER_CALLBACK_METHOD(txpool_spend_key_public, check_txpool_spent_keys);
 }
 
-bool txpool_base::increase_broadcasted_tx_count(cryptonote::core& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
+bool txpool_base::increase_broadcasted_tx_count(cryptonote::core_abstract& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
 {
   ++m_broadcasted_tx_count;
   return true;
 }
 
-bool txpool_base::increase_all_tx_count(cryptonote::core& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
+bool txpool_base::increase_all_tx_count(cryptonote::core_abstract& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
 {
   ++m_all_tx_count;
   return true;
 }
 
-bool txpool_base::check_txpool_spent_keys(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events)
+bool txpool_base::check_txpool_spent_keys(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events)
 {
   std::vector<cryptonote::tx_info> infos{};
   std::vector<cryptonote::spent_key_image_info> key_images{};
@@ -139,31 +139,31 @@ txpool_double_spend_base::txpool_double_spend_base()
   REGISTER_CALLBACK_METHOD(txpool_double_spend_base, check_new_no_relay);
 }
 
-bool txpool_double_spend_base::mark_no_new(cryptonote::core& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
+bool txpool_double_spend_base::mark_no_new(cryptonote::core_abstract& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
 {
   m_no_new_index = ev_index + 1;
   return true;
 }
 
-bool txpool_double_spend_base::mark_failed(cryptonote::core& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
+bool txpool_double_spend_base::mark_failed(cryptonote::core_abstract& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
 {
   m_failed_index = ev_index + 1;
   return true;
 }
 
-bool txpool_double_spend_base::mark_timestamp_change(cryptonote::core& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
+bool txpool_double_spend_base::mark_timestamp_change(cryptonote::core_abstract& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
 {
   m_new_timestamp_index = ev_index + 1;
   return true;
 }
 
-bool txpool_double_spend_base::timestamp_change_pause(cryptonote::core& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
+bool txpool_double_spend_base::timestamp_change_pause(cryptonote::core_abstract& /*c*/, size_t /*ev_index*/, const std::vector<test_event_entry>& /*events*/)
 {
   boost::this_thread::sleep_for(boost::chrono::seconds{1} + boost::chrono::milliseconds{100});
   return true;
 }
 
-bool txpool_double_spend_base::check_changed(cryptonote::core& c, const size_t ev_index, relay_test condition)
+bool txpool_double_spend_base::check_changed(cryptonote::core_abstract& c, const size_t ev_index, relay_test condition)
 {
   const std::size_t new_broadcasted_hash_count = m_broadcasted_hashes.size() + unsigned(condition == relay_test::broadcasted);
   const std::size_t new_all_hash_count = m_all_hashes.size() + unsigned(condition == relay_test::hidden) + unsigned(condition == relay_test::no_relay);
@@ -464,21 +464,21 @@ bool txpool_double_spend_base::check_changed(cryptonote::core& c, const size_t e
   return true;
 }
 
-bool txpool_double_spend_base::check_unchanged(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
+bool txpool_double_spend_base::check_unchanged(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
 {
   return check_changed(c, ev_index, relay_test::no_change);
 }
 
-bool txpool_double_spend_base::check_new_broadcasted(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
+bool txpool_double_spend_base::check_new_broadcasted(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
 {
   return check_changed(c, ev_index, relay_test::broadcasted);
 }
 
-bool txpool_double_spend_base::check_new_hidden(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
+bool txpool_double_spend_base::check_new_hidden(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
 {
   return check_changed(c, ev_index, relay_test::hidden);
 }
-bool txpool_double_spend_base::check_new_no_relay(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
+bool txpool_double_spend_base::check_new_no_relay(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& /*events */)
 {
   return check_changed(c, ev_index, relay_test::no_relay);
 }

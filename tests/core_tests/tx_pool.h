@@ -50,9 +50,9 @@ class txpool_base : public test_chain_unit_base
 public:
   txpool_base();
 
-  bool increase_broadcasted_tx_count(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
-  bool increase_all_tx_count(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
-  bool check_txpool_spent_keys(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
+  bool increase_broadcasted_tx_count(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
+  bool increase_all_tx_count(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
+  bool check_txpool_spent_keys(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events);
 };
 
 struct txpool_spend_key_public : txpool_base
@@ -81,22 +81,22 @@ class txpool_double_spend_base : public txpool_base
   size_t m_new_timestamp_index;
   crypto::hash m_last_tx;
 
-  bool check_changed(cryptonote::core& c, size_t ev_index, relay_test condition);
+  bool check_changed(cryptonote::core_abstract& c, size_t ev_index, relay_test condition);
 
 public:
   txpool_double_spend_base();
 
-  bool mark_no_new(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool mark_failed(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool mark_timestamp_change(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_no_new(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_failed(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool mark_timestamp_change(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
   //! Pause for 1 second, so that `receive_time` for tx meta changes (tx hidden from public rpc being updated)
-  bool timestamp_change_pause(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool timestamp_change_pause(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
-  bool check_unchanged(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool check_new_broadcasted(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool check_new_hidden(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
-  bool check_new_no_relay(cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_unchanged(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_new_broadcasted(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_new_hidden(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
+  bool check_new_no_relay(cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry>& events);
 
   bool check_tx_verification_context(const cryptonote::tx_verification_context& tvc, bool tx_added, size_t event_idx, const cryptonote::transaction& /*tx*/);
 };

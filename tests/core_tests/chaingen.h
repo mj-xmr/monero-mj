@@ -52,7 +52,9 @@
 #include "cryptonote_basic/cryptonote_basic.h"
 #include "cryptonote_basic/cryptonote_basic_impl.h"
 #include "cryptonote_basic/cryptonote_format_utils.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "cryptonote_core/cryptonote_core_abstract.h"
+#include "cryptonote_core/cryptonote_tx_utils.h"
+#include "cryptonote_core/blockchain.h"
 #include "cryptonote_protocol/enums.h"
 #include "cryptonote_basic/cryptonote_boost_serialization.h"
 #include "misc_language.h"
@@ -165,11 +167,11 @@ typedef std::unordered_map<crypto::hash, const cryptonote::transaction*> map_has
 class test_chain_unit_base
 {
 public:
-  typedef boost::function<bool (cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry> &events)> verify_callback;
+  typedef boost::function<bool (cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry> &events)> verify_callback;
   typedef std::map<std::string, verify_callback> callbacks_map;
 
   void register_callback(const std::string& cb_name, verify_callback cb);
-  bool verify(const std::string& cb_name, cryptonote::core& c, size_t ev_index, const std::vector<test_event_entry> &events);
+  bool verify(const std::string& cb_name, cryptonote::core_abstract& c, size_t ev_index, const std::vector<test_event_entry> &events);
   bool check_block_verification_context(const cryptonote::block_verification_context& bvc, size_t event_idx, const cryptonote::block& /*blk*/);
   bool check_tx_verification_context(const cryptonote::tx_verification_context& tvc, bool /*tx_added*/, size_t /*event_index*/, const cryptonote::transaction& /*tx*/);
   bool check_tx_verification_context_array(const std::vector<cryptonote::tx_verification_context>& tvcs, size_t /*tx_added*/, size_t /*event_index*/, const std::vector<cryptonote::transaction>& /*txs*/);
@@ -505,7 +507,7 @@ template<class t_test_class>
 struct push_core_event_visitor: public boost::static_visitor<bool>
 {
 private:
-  cryptonote::core& m_c;
+  cryptonote::core_abstract& m_c;
   const std::vector<test_event_entry>& m_events;
   t_test_class& m_validator;
   size_t m_ev_index;
@@ -513,7 +515,7 @@ private:
   cryptonote::relay_method m_tx_relay;
 
 public:
-  push_core_event_visitor(cryptonote::core& c, const std::vector<test_event_entry>& events, t_test_class& validator)
+  push_core_event_visitor(cryptonote::core_abstract& c, const std::vector<test_event_entry>& events, t_test_class& validator)
     : m_c(c)
     , m_events(events)
     , m_validator(validator)
@@ -689,13 +691,13 @@ private:
 };
 //--------------------------------------------------------------------------
 template<class t_test_class>
-inline bool replay_events_through_core(cryptonote::core& cr, const std::vector<test_event_entry>& events, t_test_class& validator)
+inline bool replay_events_through_core(cryptonote::core_abstract& cr, const std::vector<test_event_entry>& events, t_test_class& validator)
 {
   return replay_events_through_core_plain(cr, events, validator, true);
 }
 //--------------------------------------------------------------------------
 template<class t_test_class>
-inline bool replay_events_through_core_plain(cryptonote::core& cr, const std::vector<test_event_entry>& events, t_test_class& validator, bool reinit=true)
+inline bool replay_events_through_core_plain(cryptonote::core_abstract& cr, const std::vector<test_event_entry>& events, t_test_class& validator, bool reinit=true)
 {
   TRY_ENTRY();
 
@@ -729,10 +731,10 @@ struct get_test_options {
 };
 //--------------------------------------------------------------------------
 template<class t_test_class>
-inline bool do_replay_events_get_core(std::vector<test_event_entry>& events, cryptonote::core *core)
+inline bool do_replay_events_get_core(std::vector<test_event_entry>& events, cryptonote::core_abstract *core)
 {
   boost::program_options::options_description desc("Allowed options");
-  cryptonote::core::init_options(desc);
+  cryptonote::core_abstract::init_options(desc);
   boost::program_options::variables_map vm;
   bool r = command_line::handle_error_helper(desc, [&]()
   {
@@ -783,7 +785,7 @@ inline bool do_replay_events_get_core(std::vector<test_event_entry>& events, cry
 }
 //--------------------------------------------------------------------------
 template<class t_test_class>
-inline bool replay_events_through_core_validate(std::vector<test_event_entry>& events, cryptonote::core & c)
+inline bool replay_events_through_core_validate(std::vector<test_event_entry>& events, cryptonote::core_abstract & c)
 {
   std::vector<crypto::hash> pool_txs;
   if (!c.get_pool_transaction_hashes(pool_txs))
@@ -800,9 +802,9 @@ inline bool replay_events_through_core_validate(std::vector<test_event_entry>& e
 template<class t_test_class>
 inline bool do_replay_events(std::vector<test_event_entry>& events)
 {
-  cryptonote::core core(nullptr);
-  bool ret = do_replay_events_get_core<t_test_class>(events, &core);
-  core.deinit();
+  std::unique_ptr<cryptonote::core_abstract> core = cryptonote::core_abstract::create(nullptr);
+  bool ret = do_replay_events_get_core<t_test_class>(events, core.get());
+  core->deinit();
   return ret;
 }
 //--------------------------------------------------------------------------

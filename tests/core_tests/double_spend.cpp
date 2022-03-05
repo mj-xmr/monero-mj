@@ -69,7 +69,7 @@ bool gen_double_spend_in_different_chains::generate(std::vector<test_event_entry
   return true;
 }
 
-bool gen_double_spend_in_different_chains::check_double_spend(cryptonote::core& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events)
+bool gen_double_spend_in_different_chains::check_double_spend(cryptonote::core_abstract& c, size_t /*ev_index*/, const std::vector<test_event_entry>& events)
 {
   DEFINE_TESTS_ERROR_CONTEXT("gen_double_spend_in_different_chains::check_double_spend");
 

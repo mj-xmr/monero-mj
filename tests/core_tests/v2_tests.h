@@ -57,13 +57,13 @@ struct gen_v2_tx_validation_base : public test_chain_unit_base
       return !bvc.m_verifivation_failed;
   }
 
-  bool mark_invalid_block(cryptonote::core& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
+  bool mark_invalid_block(cryptonote::core_abstract& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
   {
     m_invalid_block_index = ev_index + 1;
     return true;
   }
 
-  bool mark_invalid_tx(cryptonote::core& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
+  bool mark_invalid_tx(cryptonote::core_abstract& /*c*/, size_t ev_index, const std::vector<test_event_entry>& /*events*/)
   {
     m_invalid_tx_index = ev_index + 1;
     return true;
