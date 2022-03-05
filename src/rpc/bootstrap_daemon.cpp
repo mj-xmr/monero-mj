@@ -5,7 +5,7 @@
 #include <boost/thread/locks.hpp>
 
 #include "crypto/crypto.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "rpc/core_rpc_server_commands_defs.h"
 #include "misc_log_ex.h"
 #include "net/parse.h"
 

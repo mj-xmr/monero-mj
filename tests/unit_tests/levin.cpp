@@ -40,7 +40,6 @@
 #include "crypto/crypto.h"
 #include "cryptonote_basic/connection_context.h"
 #include "cryptonote_config.h"
-#include "cryptonote_core/cryptonote_core.h"
 #include "cryptonote_core/i_core_events.h"
 #include "cryptonote_protocol/cryptonote_protocol_defs.h"
 #include "cryptonote_protocol/levin_notify.h"

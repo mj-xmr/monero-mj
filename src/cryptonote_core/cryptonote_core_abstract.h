@@ -36,21 +36,25 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+#include "checkpoints/checkpoints.h"
 #include "cryptonote_basic/fwd.h"
 #include "cryptonote_core/i_core_events.h"
 #include "cryptonote_protocol/cryptonote_protocol_handler_common.h"
 #include "cryptonote_protocol/enums.h"
-#include "storages/portable_storage_template_helper.h"
-#include "common/download.h"
+//#include "storages/portable_storage_template_helper.h"
+//#include "common/download.h"
 #include "common/command_line.h"
-#include "tx_pool.h"
-#include "blockchain.h"
+//#include "tx_pool.h"
+//#include "blockchain.h"
 #include "cryptonote_basic/miner.h"
-#include "cryptonote_basic/connection_context.h"
+//#include "cryptonote_basic/connection_context.h"
 #include "warnings.h"
 #include "crypto/hash.h"
 #include "span.h"
 #include "rpc/fwd.h"
+
+#include "rpc/message_data_structs.h"
+#include "rpc/core_rpc_server_commands_defs.h"
 
 PUSH_WARNINGS
 DISABLE_VS_WARNINGS(4355)
@@ -59,10 +63,19 @@ DISABLE_VS_WARNINGS(4355)
 
 namespace cryptonote
 {
+  class Blockchain;
+   enum class relay_category : uint8_t;
+   namespace rpc
+   {
+       //struct tx_in_pool;
+   }
+   
    struct test_options {
      const std::pair<uint8_t, uint64_t> *hard_forks;
      const size_t long_term_block_weight_window;
    };
+   
+   typedef std::function<const epee::span<const unsigned char>(cryptonote::network_type network)> GetCheckpointsCallback2;
 
   extern const command_line::arg_descriptor<std::string, false, true, 2> arg_data_dir;
   extern const command_line::arg_descriptor<bool, false> arg_testnet_on;
@@ -249,7 +262,7 @@ namespace cryptonote
       *
       * @return false if one of the init steps fails, otherwise true
       */
-     virtual bool init(const boost::program_options::variables_map& vm, const test_options *test_options = NULL, const GetCheckpointsCallback& get_checkpoints = nullptr, bool allow_dns = true) = 0;
+     virtual bool init(const boost::program_options::variables_map& vm, const test_options *test_options = NULL, const GetCheckpointsCallback2& get_checkpoints = nullptr, bool allow_dns = true) = 0;
 
      /**
       * @copydoc Blockchain::reset_and_set_genesis_block
