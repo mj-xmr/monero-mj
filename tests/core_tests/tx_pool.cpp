@@ -27,6 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "tx_pool.h"
+#include "rpc/message_data_structs.h"
 
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread_only.hpp>

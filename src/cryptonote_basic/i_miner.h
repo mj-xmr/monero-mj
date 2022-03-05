@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020, The Monero Project
+// Copyright (c) 2014-2020, The Monero Project
 //
 // All rights reserved.
 //
@@ -25,21 +25,27 @@
 // INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
 #pragma once
 
+#include "cryptonote_basic/difficulty.h"
+#include "cryptonote_basic/blobdatatype.h"
+
 namespace cryptonote
 {
-  namespace listener
+    class block;
+    class block_verification_context;
+    class account_public_address;
+    
+    struct i_miner_handler
   {
-    class zmq_pub;
-  }
-  
-  struct NOTIFY_REQUEST_GET_OBJECTS_request_t;
-  struct NOTIFY_RESPONSE_GET_OBJECTS_request_t;
-  struct NOTIFY_RESPONSE_CHAIN_ENTRY_request_t;
-  
-  struct COMMAND_RPC_GET_OUTPUTS_BIN_request_t;
-    struct COMMAND_RPC_GET_OUTPUTS_BIN_outkey;
-    struct COMMAND_RPC_GET_OUTPUTS_BIN_response_t;
+    virtual bool handle_block_found(block& b, block_verification_context &bvc) = 0;
+    virtual bool get_block_template(block& b, const account_public_address& adr, difficulty_type& diffic, uint64_t& height, uint64_t& expected_reward, const blobdata& ex_nonce, uint64_t &seed_height, crypto::hash &seed_hash) = 0;
+    virtual bool get_block_template(block& b, const crypto::hash *prev_block, const account_public_address& adr, difficulty_type& diffic, uint64_t& height, uint64_t& expected_reward, const blobdata& ex_nonce, uint64_t &seed_height, crypto::hash &seed_hash) = 0;
+  protected:
+    ~i_miner_handler(){};
+  };
 }
+

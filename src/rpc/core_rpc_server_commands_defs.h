@@ -473,9 +473,7 @@ namespace cryptonote
     END_KV_SERIALIZE_MAP()
   };
 
-  struct COMMAND_RPC_GET_OUTPUTS_BIN
-  {
-    struct request_t: public rpc_access_request_base
+  struct COMMAND_RPC_GET_OUTPUTS_BIN_request_t: public rpc_access_request_base
     {
       std::vector<get_outputs_out> outputs;
       bool get_txid;
@@ -486,9 +484,8 @@ namespace cryptonote
         KV_SERIALIZE_OPT(get_txid, true)
       END_KV_SERIALIZE_MAP()
     };
-    typedef epee::misc_utils::struct_init<request_t> request;
-
-    struct outkey
+    
+    struct COMMAND_RPC_GET_OUTPUTS_BIN_outkey
     {
       crypto::public_key key;
       rct::key mask;
@@ -505,16 +502,20 @@ namespace cryptonote
       END_KV_SERIALIZE_MAP()
     };
 
-    struct response_t: public rpc_access_response_base
+    struct COMMAND_RPC_GET_OUTPUTS_BIN_response_t: public rpc_access_response_base
     {
-      std::vector<outkey> outs;
+      std::vector<COMMAND_RPC_GET_OUTPUTS_BIN_outkey> outs;
 
       BEGIN_KV_SERIALIZE_MAP()
         KV_SERIALIZE_PARENT(rpc_access_response_base)
         KV_SERIALIZE(outs)
       END_KV_SERIALIZE_MAP()
     };
-    typedef epee::misc_utils::struct_init<response_t> response;
+    
+  struct COMMAND_RPC_GET_OUTPUTS_BIN
+  {
+    typedef epee::misc_utils::struct_init<COMMAND_RPC_GET_OUTPUTS_BIN_request_t> request;
+    typedef epee::misc_utils::struct_init<COMMAND_RPC_GET_OUTPUTS_BIN_response_t> response;
   };
   //-----------------------------------------------
   struct COMMAND_RPC_GET_OUTPUTS

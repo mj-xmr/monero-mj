@@ -457,7 +457,7 @@ namespace cryptonote
      *
      * @return true if a block found in common, else false
      */
-    bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY::request& resp) const;
+    bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY_request_t& resp) const;
 
     /**
      * @brief find the most recent common point between ours and a foreign chain
@@ -505,7 +505,7 @@ namespace cryptonote
      *
      * @return true unless any blocks or transactions are missing
      */
-    bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS::request& arg, NOTIFY_RESPONSE_GET_OBJECTS::request& rsp);
+    bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS_request_t& arg, NOTIFY_RESPONSE_GET_OBJECTS_request_t& rsp);
 
     /**
      * @brief get number of outputs of an amount past the minimum spendable age
@@ -539,7 +539,7 @@ namespace cryptonote
      *
      * @return true
      */
-    bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN::request& req, COMMAND_RPC_GET_OUTPUTS_BIN::response& res) const;
+    bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN_request_t& req, COMMAND_RPC_GET_OUTPUTS_BIN_response_t& res) const;
 
     /**
      * @brief gets an output's key and unlocked state

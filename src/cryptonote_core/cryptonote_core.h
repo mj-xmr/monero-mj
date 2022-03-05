@@ -104,7 +104,7 @@ namespace cryptonote
      * @note see Blockchain::handle_get_objects()
      * @param context connection context associated with the request
      */
-     bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS::request& arg, NOTIFY_RESPONSE_GET_OBJECTS::request& rsp, cryptonote_connection_context& context);
+     bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS_request_t& arg, NOTIFY_RESPONSE_GET_OBJECTS_request_t& rsp, cryptonote_connection_context& context);
 
      /**
       * @brief calls various idle routines
@@ -559,7 +559,7 @@ namespace cryptonote
       *
       * @note see Blockchain::find_blockchain_supplement(const std::list<crypto::hash>&, NOTIFY_RESPONSE_CHAIN_ENTRY::request&) const
       */
-     bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY::request& resp) const;
+     bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY_request_t& resp) const;
 
      /**
       * @copydoc Blockchain::find_blockchain_supplement(const uint64_t, const std::list<crypto::hash>&, std::vector<std::pair<cryptonote::blobdata, std::vector<cryptonote::blobdata> > >&, uint64_t&, uint64_t&, size_t) const
@@ -595,7 +595,7 @@ namespace cryptonote
       *
       * @note see Blockchain::get_outs
       */
-     bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN::request& req, COMMAND_RPC_GET_OUTPUTS_BIN::response& res) const;
+     bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN_request_t& req, COMMAND_RPC_GET_OUTPUTS_BIN_response_t& res) const;
 
      /**
       * @copydoc Blockchain::get_output_distribution

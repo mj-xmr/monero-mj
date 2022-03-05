@@ -1415,7 +1415,7 @@ namespace cryptonote
     return m_blockchain_storage.get_miner_data(major_version, height, prev_id, seed_hash, difficulty, median_weight, already_generated_coins, tx_backlog);
   }
   //-----------------------------------------------------------------------------------------------
-  bool core::find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY::request& resp) const
+  bool core::find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY_request_t& resp) const
   {
     return m_blockchain_storage.find_blockchain_supplement(qblock_ids, clip_pruned, resp);
   }
@@ -1425,7 +1425,7 @@ namespace cryptonote
     return m_blockchain_storage.find_blockchain_supplement(req_start_block, qblock_ids, blocks, total_height, start_height, pruned, get_miner_tx_hash, max_block_count, max_tx_count);
   }
   //-----------------------------------------------------------------------------------------------
-  bool core::get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN::request& req, COMMAND_RPC_GET_OUTPUTS_BIN::response& res) const
+  bool core::get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN_request_t& req, COMMAND_RPC_GET_OUTPUTS_BIN_response_t& res) const
   {
     return m_blockchain_storage.get_outs(req, res);
   }
@@ -1702,7 +1702,7 @@ namespace cryptonote
     return m_blockchain_storage.get_short_chain_history(ids);
   }
   //-----------------------------------------------------------------------------------------------
-  bool core::handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS::request& arg, NOTIFY_RESPONSE_GET_OBJECTS::request& rsp, cryptonote_connection_context& context)
+  bool core::handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS_request_t& arg, NOTIFY_RESPONSE_GET_OBJECTS_request_t& rsp, cryptonote_connection_context& context)
   {
     return m_blockchain_storage.handle_get_objects(arg, rsp);
   }

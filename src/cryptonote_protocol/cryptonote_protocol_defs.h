@@ -210,29 +210,26 @@ namespace cryptonote
   /************************************************************************/
   /*                                                                      */
   /************************************************************************/
+  
+  struct NOTIFY_REQUEST_GET_OBJECTS_request_t
+  {
+  std::vector<crypto::hash> blocks;
+  bool prune;
+
+  BEGIN_KV_SERIALIZE_MAP()
+    KV_SERIALIZE_CONTAINER_POD_AS_BLOB(blocks)
+    KV_SERIALIZE_OPT(prune, false)
+  END_KV_SERIALIZE_MAP()
+};
+  
   struct NOTIFY_REQUEST_GET_OBJECTS
   {
     const static int ID = BC_COMMANDS_POOL_BASE + 3;
-
-    struct request_t
-    {
-      std::vector<crypto::hash> blocks;
-      bool prune;
-
-      BEGIN_KV_SERIALIZE_MAP()
-        KV_SERIALIZE_CONTAINER_POD_AS_BLOB(blocks)
-        KV_SERIALIZE_OPT(prune, false)
-      END_KV_SERIALIZE_MAP()
-    };
-    typedef epee::misc_utils::struct_init<request_t> request;
+    typedef epee::misc_utils::struct_init<NOTIFY_REQUEST_GET_OBJECTS_request_t> request;
   };
 
-  struct NOTIFY_RESPONSE_GET_OBJECTS
+  struct NOTIFY_RESPONSE_GET_OBJECTS_request_t
   {
-    const static int ID = BC_COMMANDS_POOL_BASE + 4;
-
-    struct request_t
-    {
       std::vector<block_complete_entry>  blocks;
       std::vector<crypto::hash>          missed_ids;
       uint64_t                         current_blockchain_height;
@@ -242,8 +239,11 @@ namespace cryptonote
         KV_SERIALIZE_CONTAINER_POD_AS_BLOB(missed_ids)
         KV_SERIALIZE(current_blockchain_height)
       END_KV_SERIALIZE_MAP()
-    };
-    typedef epee::misc_utils::struct_init<request_t> request;
+  };
+  struct NOTIFY_RESPONSE_GET_OBJECTS
+  {
+    const static int ID = BC_COMMANDS_POOL_BASE + 4;
+    typedef epee::misc_utils::struct_init<NOTIFY_RESPONSE_GET_OBJECTS_request_t> request;
   };
 
 
@@ -286,12 +286,8 @@ namespace cryptonote
     typedef epee::misc_utils::struct_init<request_t> request;
   };
 
-  struct NOTIFY_RESPONSE_CHAIN_ENTRY
+  struct NOTIFY_RESPONSE_CHAIN_ENTRY_request_t
   {
-    const static int ID = BC_COMMANDS_POOL_BASE + 7;
-
-    struct request_t
-    {
       uint64_t start_height;
       uint64_t total_height;
       uint64_t cumulative_difficulty;
@@ -313,7 +309,12 @@ namespace cryptonote
         KV_SERIALIZE(first_block)
       END_KV_SERIALIZE_MAP()
     };
-    typedef epee::misc_utils::struct_init<request_t> request;
+  
+  struct NOTIFY_RESPONSE_CHAIN_ENTRY
+  {
+    const static int ID = BC_COMMANDS_POOL_BASE + 7;
+
+    typedef epee::misc_utils::struct_init<NOTIFY_RESPONSE_CHAIN_ENTRY_request_t> request;
   };
   
   /************************************************************************/

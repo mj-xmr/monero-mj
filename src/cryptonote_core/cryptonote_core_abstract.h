@@ -30,18 +30,21 @@
 
 #pragma once
 
-#include "checkpoints/checkpoints.h"
+//#include "checkpoints/checkpoints.h"
+#include "cryptonote_config.h"
 #include "cryptonote_basic/fwd.h"
 #include "cryptonote_core/i_core_events.h"
+#include "cryptonote_basic/i_miner.h"
 #include "cryptonote_protocol/enums.h"
 #include "common/command_line.h"
-#include "cryptonote_basic/miner.h"
+#include "cryptonote_basic/i_miner.h"
 #include "warnings.h"
 #include "crypto/hash.h"
+#include "crypto/crypto.h"
 #include "span.h"
 #include "rpc/fwd.h"
-#include "rpc/message_data_structs.h"
-#include "rpc/core_rpc_server_commands_defs.h"
+//#include "rpc/message_data_structs.h"
+//#include "rpc/core_rpc_server_commands_defs.h"
 
 #include <boost/function.hpp>
 #include <boost/program_options/options_description.hpp>
@@ -56,13 +59,25 @@ enum { HAVE_BLOCK_MAIN_CHAIN, HAVE_BLOCK_ALT_CHAIN, HAVE_BLOCK_INVALID };
 
 namespace cryptonote
 {
+    class checkpoints;
+    class miner;
+    
+    struct tx_blob_entry;
+    struct tx_backlog_entry;
+    struct block_complete_entry;
+    struct tx_info;
+    struct spent_key_image_info;
+    
+    struct tx_verification_context;
+    
     struct i_cryptonote_protocol;
     struct cryptonote_connection_context;
   class Blockchain;
    enum class relay_category : uint8_t;
    namespace rpc
    {
-       //struct tx_in_pool;
+       struct tx_in_pool;
+       typedef std::unordered_map<crypto::key_image, std::vector<crypto::hash> > key_images_with_tx_hashes;
    }
    
    struct test_options {
@@ -121,7 +136,7 @@ namespace cryptonote
      * @note see Blockchain::handle_get_objects()
      * @param context connection context associated with the request
      */
-     virtual bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS::request& arg, NOTIFY_RESPONSE_GET_OBJECTS::request& rsp, cryptonote_connection_context& context) = 0;
+     virtual bool handle_get_objects(NOTIFY_REQUEST_GET_OBJECTS_request_t& arg, NOTIFY_RESPONSE_GET_OBJECTS_request_t& rsp, cryptonote_connection_context& context) = 0;
 
      /**
       * @brief calls various idle routines
@@ -553,7 +568,7 @@ namespace cryptonote
       *
       * @note see Blockchain::find_blockchain_supplement(const std::list<crypto::hash>&, NOTIFY_RESPONSE_CHAIN_ENTRY::request&) const
       */
-     virtual bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY::request& resp) const = 0;
+     virtual bool find_blockchain_supplement(const std::list<crypto::hash>& qblock_ids, bool clip_pruned, NOTIFY_RESPONSE_CHAIN_ENTRY_request_t& resp) const = 0;
 
      /**
       * @copydoc Blockchain::find_blockchain_supplement(const uint64_t, const std::list<crypto::hash>&, std::vector<std::pair<cryptonote::blobdata, std::vector<cryptonote::blobdata> > >&, uint64_t&, uint64_t&, size_t) const
@@ -589,7 +604,7 @@ namespace cryptonote
       *
       * @note see Blockchain::get_outs
       */
-     virtual bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN::request& req, COMMAND_RPC_GET_OUTPUTS_BIN::response& res) const = 0;
+     virtual bool get_outs(const COMMAND_RPC_GET_OUTPUTS_BIN_request_t& req, COMMAND_RPC_GET_OUTPUTS_BIN_response_t& res) const = 0;
 
      /**
       * @copydoc Blockchain::get_output_distribution

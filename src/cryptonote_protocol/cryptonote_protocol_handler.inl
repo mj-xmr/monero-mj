@@ -40,11 +40,13 @@
 #include <ctime>
 
 #include "cryptonote_basic/cryptonote_format_utils.h"
+#include "cryptonote_basic/verification_context.h"
 #include "blockchain_db/blockchain_db.h"
 #include "profile_tools.h"
 #include "net/network_throttle-detail.hpp"
 #include "common/pruning.h"
 #include "common/util.h"
+#include "rpc/core_rpc_server_commands_defs.h"
 
 #undef MONERO_DEFAULT_LOG_CATEGORY
 #define MONERO_DEFAULT_LOG_CATEGORY "net.cn"

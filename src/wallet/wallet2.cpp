@@ -11070,7 +11070,7 @@ std::string wallet2::get_spend_proof(const crypto::hash &txid, const std::string
 
     // copy pubkey pointers
     std::vector<const crypto::public_key *> p_output_keys;
-    for (const COMMAND_RPC_GET_OUTPUTS_BIN::outkey &out : res.outs)
+    for (const COMMAND_RPC_GET_OUTPUTS_BIN_outkey &out : res.outs)
       p_output_keys.push_back(&out.key);
 
     // figure out real output index and secret key
@@ -11203,7 +11203,7 @@ bool wallet2::check_spend_proof(const crypto::hash &txid, const std::string &mes
 
     // copy pointers
     std::vector<const crypto::public_key *> p_output_keys;
-    for (const COMMAND_RPC_GET_OUTPUTS_BIN::outkey &out : res.outs)
+    for (const COMMAND_RPC_GET_OUTPUTS_BIN_outkey &out : res.outs)
       p_output_keys.push_back(&out.key);
 
     // check this ring

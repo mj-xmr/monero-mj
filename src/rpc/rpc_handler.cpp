@@ -4,6 +4,7 @@
 #include <boost/thread/mutex.hpp>
 
 #include "cryptonote_core/cryptonote_core_abstract.h"
+#include "rpc/rpc_handler.h"
 
 namespace cryptonote
 {
