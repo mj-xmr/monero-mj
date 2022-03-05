@@ -75,7 +75,7 @@ namespace cryptonote
      const size_t long_term_block_weight_window;
    };
    
-   typedef std::function<const epee::span<const unsigned char>(cryptonote::network_type network)> GetCheckpointsCallback2;
+   typedef std::function<const epee::span<const unsigned char>(cryptonote::network_type network)> GetCheckpointsCallback;
 
   extern const command_line::arg_descriptor<std::string, false, true, 2> arg_data_dir;
   extern const command_line::arg_descriptor<bool, false> arg_testnet_on;
@@ -281,7 +281,7 @@ namespace cryptonote
       *
       * @return false if one of the init steps fails, otherwise true
       */
-     virtual bool init(const boost::program_options::variables_map& vm, const test_options *test_options = NULL, const GetCheckpointsCallback2& get_checkpoints = nullptr, bool allow_dns = true) = 0;
+     virtual bool init(const boost::program_options::variables_map& vm, const test_options *test_options = NULL, const GetCheckpointsCallback& get_checkpoints = nullptr, bool allow_dns = true) = 0;
 
      /**
       * @copydoc Blockchain::reset_and_set_genesis_block

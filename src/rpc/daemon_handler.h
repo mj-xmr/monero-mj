@@ -32,7 +32,7 @@
 #include "daemon_messages.h"
 #include "daemon_rpc_version.h"
 #include "rpc_handler.h"
-#include "cryptonote_core/cryptonote_core.h"
+#include "cryptonote_core/cryptonote_core_abstract.h"
 #include "cryptonote_protocol/cryptonote_protocol_handler.h"
 #include "p2p/net_node.h"
 
