@@ -40,6 +40,7 @@
 
 #include "common/command_line.h"
 #include "cryptonote_core/cryptonote_core_abstract.h"
+#include "cryptonote_core/cryptonote_core_command_line.h"
 #include "cryptonote_protocol/cryptonote_protocol_defs.h"
 #include "net_node.h"
 #include "net/net_utils_base.h"

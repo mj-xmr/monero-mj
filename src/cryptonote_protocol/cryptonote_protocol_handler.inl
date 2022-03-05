@@ -41,6 +41,7 @@
 
 #include "cryptonote_basic/cryptonote_format_utils.h"
 #include "cryptonote_basic/verification_context.h"
+#include "cryptonote_core/cryptonote_core_command_line.h"
 #include "blockchain_db/blockchain_db.h"
 #include "profile_tools.h"
 #include "net/network_throttle-detail.hpp"

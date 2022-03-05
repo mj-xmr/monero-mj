@@ -36,7 +36,7 @@
 #include "cryptonote_core/i_core_events.h"
 #include "cryptonote_basic/i_miner.h"
 #include "cryptonote_protocol/enums.h"
-#include "common/command_line.h"
+//#include "common/command_line.h"
 #include "cryptonote_basic/i_miner.h"
 #include "warnings.h"
 #include "crypto/hash.h"
@@ -50,8 +50,9 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-#include <list>
 #include <ctime>
+#include <list>
+#include <unordered_map>
 
 PUSH_WARNINGS
 DISABLE_VS_WARNINGS(4355)
@@ -87,34 +88,6 @@ namespace cryptonote
    };
    
    typedef std::function<const epee::span<const unsigned char>(cryptonote::network_type network)> GetCheckpointsCallback;
-
-  extern const command_line::arg_descriptor<std::string, false, true, 2> arg_data_dir;
-  extern const command_line::arg_descriptor<bool, false> arg_testnet_on;
-  extern const command_line::arg_descriptor<bool, false> arg_stagenet_on;
-  extern const command_line::arg_descriptor<bool, false> arg_regtest_on;
-  extern const command_line::arg_descriptor<difficulty_type> arg_fixed_difficulty;
-  extern const command_line::arg_descriptor<bool> arg_offline;
-  extern const command_line::arg_descriptor<size_t> arg_block_download_max_size;
-  extern const command_line::arg_descriptor<bool> arg_sync_pruned_blocks;
-  extern const command_line::arg_descriptor<bool> arg_keep_fakechain;
-  extern const command_line::arg_descriptor<bool> arg_disable_dns_checkpoints;
-  extern const command_line::arg_descriptor<bool> arg_test_drop_download;
-  extern const command_line::arg_descriptor<uint64_t> arg_test_drop_download_height;
-  extern const command_line::arg_descriptor<int> arg_test_dbg_lock_sleep;
-  extern const command_line::arg_descriptor<bool> arg_dns_checkpoints;
-  extern const command_line::arg_descriptor<uint64_t> arg_fast_block_sync;
-  extern const command_line::arg_descriptor<uint64_t> arg_prep_blocks_threads;
-  extern const command_line::arg_descriptor<uint64_t> arg_show_time_stats;
-  extern const command_line::arg_descriptor<size_t> arg_block_sync_size;
-  extern const command_line::arg_descriptor<std::string> arg_check_updates;
-  extern const command_line::arg_descriptor<bool> arg_fluffy_blocks;
-  extern const command_line::arg_descriptor<bool> arg_no_fluffy_blocks;
-  extern const command_line::arg_descriptor<size_t> arg_max_txpool_weight;
-  extern const command_line::arg_descriptor<std::string> arg_block_notify;
-  extern const command_line::arg_descriptor<bool> arg_prune_blockchain;
-  extern const command_line::arg_descriptor<std::string> arg_reorg_notify;
-  extern const command_line::arg_descriptor<std::string> arg_block_rate_notify;
-  extern const command_line::arg_descriptor<bool> arg_keep_alt_blocks;
 
   /************************************************************************/
   /*                                                                      */
