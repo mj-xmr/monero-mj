@@ -30,6 +30,7 @@
 #include "common/command_line.h"
 #include "net/parse.h"
 #include "daemon/command_parser_executor.h"
+#include "cryptonote_basic/cryptonote_basic_impl.h"
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
