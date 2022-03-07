@@ -31,6 +31,7 @@
 #include "string_tools.h"
 #include "int-util.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h"
 
 template<uint64_t hash_target_high, uint64_t hash_target_low, uint64_t difficulty_high, uint64_t difficulty_low>
 class test_check_hash
@@ -41,10 +42,10 @@ public:
   bool init()
   {
     cryptonote::difficulty_type hash_target = hash_target_high;
-    hash_target = (hash_target << 64) | hash_target_low;
+    hash_target = (hash_target() << 64) | hash_target_low;
     difficulty = difficulty_high;
-    difficulty = (difficulty << 64) | difficulty_low;
-    boost::multiprecision::uint256_t hash_value =  std::numeric_limits<boost::multiprecision::uint256_t>::max() / hash_target;
+    difficulty = (difficulty() << 64) | difficulty_low;
+    boost::multiprecision::uint256_t hash_value =  std::numeric_limits<boost::multiprecision::uint256_t>::max() / hash_target();
     uint64_t val;
     val = (hash_value & 0xffffffffffffffff).convert_to<uint64_t>();
     ((uint64_t*)&hash)[0] = SWAP64LE(val);

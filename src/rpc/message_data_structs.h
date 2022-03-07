@@ -31,6 +31,7 @@
 #include "crypto/hash.h"
 #include "cryptonote_basic/cryptonote_basic.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h" /// TODO: Overkill. Will have to fwd declare message data structs
 #include "ringct/rctSigs.h"
 #include "rpc/rpc_handler.h"
 

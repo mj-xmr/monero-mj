@@ -56,6 +56,7 @@
 #include "cryptonote_protocol/cryptonote_protocol_defs.h"
 #include "rpc/core_rpc_server_commands_defs.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h"
 #include "cryptonote_tx_utils.h"
 #include "cryptonote_basic/verification_context.h"
 #include "crypto/hash.h"

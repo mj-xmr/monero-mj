@@ -45,6 +45,7 @@
 #include "common/util.h"
 #include "common/pruning.h"
 #include "cryptonote_basic/cryptonote_format_utils.h"
+#include "common/difficulty_type.h"
 #include "crypto/crypto.h"
 #include "profile_tools.h"
 #include "ringct/rctOps.h"
@@ -798,8 +799,8 @@ void BlockchainLMDB::add_block(const block& blk, size_t block_weight, uint64_t l
   bi.bi_timestamp = blk.timestamp;
   bi.bi_coins = coins_generated;
   bi.bi_weight = block_weight;
-  bi.bi_diff_hi = ((cumulative_difficulty >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
-  bi.bi_diff_lo = (cumulative_difficulty & 0xffffffffffffffff).convert_to<uint64_t>();
+  bi.bi_diff_hi = ((cumulative_difficulty() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
+  bi.bi_diff_lo = (cumulative_difficulty() & 0xffffffffffffffff).convert_to<uint64_t>();
   bi.bi_hash = blk_hash;
   bi.bi_cum_rct = num_rct_outs;
   if (blk.major_version >= 4)
@@ -2761,8 +2762,8 @@ difficulty_type BlockchainLMDB::get_block_cumulative_difficulty(const uint64_t& 
 
   mdb_block_info *bi = (mdb_block_info *)result.mv_data;
   difficulty_type ret = bi->bi_diff_hi;
-  ret <<= 64;
-  ret |= bi->bi_diff_lo;
+  ret() <<= 64;
+  ret() |= bi->bi_diff_lo;
   TXN_POSTFIX_RDONLY();
   return ret;
 }
@@ -2810,8 +2811,8 @@ void BlockchainLMDB::correct_block_cumulative_difficulties(const uint64_t& start
 
     mdb_block_info bi = *(mdb_block_info*)key.mv_data;
     const difficulty_type d = new_cumulative_difficulties[height - start_height];
-    bi.bi_diff_hi = ((d >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
-    bi.bi_diff_lo = (d & 0xffffffffffffffff).convert_to<uint64_t>();
+    bi.bi_diff_hi = ((d() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
+    bi.bi_diff_lo = (d() & 0xffffffffffffffff).convert_to<uint64_t>();
 
     MDB_val_set(key2, height);
     MDB_val_set(val, bi);

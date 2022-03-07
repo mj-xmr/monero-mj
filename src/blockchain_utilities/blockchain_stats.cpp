@@ -353,11 +353,11 @@ skip:
     }
     if (do_diff) {
       difficulty_type diff = db->get_block_difficulty(h);
-      if (!mindiff || diff < mindiff)
-        mindiff = diff;
+      if (!mindiff || diff() < mindiff)
+        mindiff = diff();
       if (diff > maxdiff)
-        maxdiff = diff;
-      totdiff += diff;
+        maxdiff = diff();
+      totdiff += diff();
     }
     if (do_emission) {
       coinbase_amount = get_outs_money_amount(blk.miner_tx);

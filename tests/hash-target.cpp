@@ -35,6 +35,7 @@
 #include "misc_log_ex.h"
 #include "crypto/hash.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h"
 
 using namespace std;
 using cryptonote::check_hash;
@@ -42,31 +43,31 @@ using cryptonote::check_hash;
 int main(int argc, char *argv[]) {
   TRY_ENTRY();
   crypto::hash h;
-  for (cryptonote::difficulty_type diff = 1;; diff += 1 + (diff >> 8)) {
+  for (cryptonote::difficulty_type diff = 1;; diff() += 1 + (diff() >> 8)) {
     for (uint16_t b = 0; b < 256; b++) {
       memset(&h, b, sizeof(crypto::hash));
-      if (check_hash(h, diff) != (b == 0 || diff <= 255 / b)) {
+      if (check_hash(h, diff) != (b == 0 || diff() <= 255 / b)) {
         return 1;
       }
       if (b > 0) {
         memset(&h, 0, sizeof(crypto::hash));
         ((char *) &h)[31] = b;
-        if (check_hash(h, diff) != (diff <= 255 / b)) {
+        if (check_hash(h, diff) != (diff() <= 255 / b)) {
           return 2;
         }
       }
     }
-    if (diff < numeric_limits<uint64_t>::max() / 256) {
+    if (diff() < numeric_limits<uint64_t>::max() / 256) {
       uint64_t val = 0;
       for (int i = 31; i >= 0; i--) {
         val = val * 256 + 255;
         ((char *) &h)[i] = static_cast<char>(static_cast<uint64_t>(val / diff));
-        val %= (diff & 0xffffffffffffffff).convert_to<uint64_t>();
+        val %= (diff() & 0xffffffffffffffff).convert_to<uint64_t>();
       }
       if (check_hash(h, diff) != true) {
         return 3;
       }
-      if (diff > 1) {
+      if (diff() > 1) {
         for (int i = 0;; i++) {
           if (i >= 32) {
             abort();
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    if (diff + 1 + (diff >> 8) < diff) {
+    if (diff() + 1 + (diff() >> 8) < diff()) {
       break;
     }
   }

@@ -513,7 +513,7 @@ namespace rpc
     auto& chain = m_core.get_blockchain_storage();
 
     res.info.wide_difficulty = chain.get_difficulty_for_next_block();
-    res.info.difficulty = (res.info.wide_difficulty & 0xffffffffffffffff).convert_to<uint64_t>();
+    res.info.difficulty = (res.info.wide_difficulty() & 0xffffffffffffffff).convert_to<uint64_t>();
 
     res.info.target = chain.get_difficulty_target();
 
@@ -535,7 +535,7 @@ namespace rpc
     res.info.testnet = m_core.get_nettype() == TESTNET;
     res.info.stagenet = m_core.get_nettype() == STAGENET;
     res.info.wide_cumulative_difficulty = m_core.get_blockchain_storage().get_db().get_block_cumulative_difficulty(res.info.height - 1);
-    res.info.cumulative_difficulty = (res.info.wide_cumulative_difficulty & 0xffffffffffffffff).convert_to<uint64_t>();
+    res.info.cumulative_difficulty = (res.info.wide_cumulative_difficulty() & 0xffffffffffffffff).convert_to<uint64_t>();
     res.info.block_size_limit = res.info.block_weight_limit = m_core.get_blockchain_storage().get_current_cumulative_block_weight_limit();
     res.info.block_size_median = res.info.block_weight_median = m_core.get_blockchain_storage().get_current_cumulative_block_weight_median();
     res.info.adjusted_time = m_core.get_blockchain_storage().get_adjusted_time(res.info.height);
@@ -906,7 +906,7 @@ namespace rpc
     }
 
     header.wide_difficulty = m_core.get_blockchain_storage().block_difficulty(header.height);
-    header.difficulty = (header.wide_difficulty & 0xffffffffffffffff).convert_to<uint64_t>();
+    header.difficulty = (header.wide_difficulty() & 0xffffffffffffffff).convert_to<uint64_t>();
 
     return true;
   }

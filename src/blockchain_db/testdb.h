@@ -35,6 +35,7 @@
 #include <map>
 
 #include "blockchain_db.h"
+#include "common/difficulty_type.h"
 
 namespace cryptonote
 {

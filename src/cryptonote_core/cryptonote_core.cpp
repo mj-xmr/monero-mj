@@ -93,7 +93,7 @@ namespace cryptonote
   , "Don't delete any existing database when in fakechain mode."
   , false
   };
-  const command_line::arg_descriptor<difficulty_type> arg_fixed_difficulty  = {
+  const command_line::arg_descriptor<difficulty_type_underlying> arg_fixed_difficulty  = {
     "fixed-difficulty"
   , "Fixed difficulty used for testing."
   , 0

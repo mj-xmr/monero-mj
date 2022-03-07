@@ -479,7 +479,7 @@ namespace cryptonote
     for(; bl.nonce != std::numeric_limits<uint32_t>::max(); bl.nonce++)
     {
       crypto::hash h;
-      gbh(bl, height, seed_hash, diffic <= 100 ? 0 : tools::get_max_concurrency(), h);
+      gbh(bl, height, seed_hash, diffic() <= 100 ? 0 : tools::get_max_concurrency(), h);
 
       if(check_hash(h, diffic))
       {
@@ -581,7 +581,7 @@ namespace cryptonote
       {
         //we lucky!
         ++m_config.current_extra_message_index;
-        MGINFO_GREEN("Found block " << get_block_hash(b) << " at height " << height << " for difficulty: " << local_diff);
+        MGINFO_GREEN("Found block " << get_block_hash(b) << " at height " << height << " for difficulty: " << local_diff());
         cryptonote::block_verification_context bvc;
         if(!m_phandler->handle_block_found(b, bvc) || !bvc.m_added_to_main_chain)
         {

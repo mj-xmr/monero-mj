@@ -31,6 +31,7 @@
 // node.cpp : Defines the entry point for the console application.
 //
 
+#include <atomic> /// TODO: Move higher
 
 #include "include_base_utils.h"
 #include "version.h"
@@ -40,6 +41,7 @@
 #include <boost/program_options.hpp>
 
 #include "common/command_line.h"
+//#include "common/difficulty_type.h"
 #include "console_handler.h"
 #include "p2p/net_node.h"
 #include "p2p/net_node.inl"
@@ -109,7 +111,8 @@ int main(int argc, char* argv[])
   //initialize objects
 
   MGINFO("Initializing p2p server...");
-  bool res = p2psrv.init(vm);
+  ///bool res = p2psrv.init(vm); /// TODO
+  bool res = false;
   CHECK_AND_ASSERT_MES(res, 1, "Failed to initialize p2p server.");
   MGINFO("P2p server initialized OK");
 
@@ -125,7 +128,7 @@ int main(int argc, char* argv[])
   MGINFO("Core initialized OK");
 
   MGINFO("Starting p2p net loop...");
-  p2psrv.run();
+  ///p2psrv.run();
   MGINFO("p2p net loop stopped");
 
   //deinitialize components  

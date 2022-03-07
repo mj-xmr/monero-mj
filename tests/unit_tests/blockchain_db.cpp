@@ -39,6 +39,7 @@
 #include "blockchain_db/blockchain_db.h"
 #include "blockchain_db/lmdb/db_lmdb.h"
 #include "cryptonote_basic/cryptonote_format_utils.h"
+#include "common/difficulty_type.h"
 
 using namespace cryptonote;
 using epee::string_tools::pod_to_hex;
@@ -322,7 +323,7 @@ TYPED_TEST(BlockchainDBTest, RetrieveBlockData)
   ASSERT_EQ(t_coins[0], this->m_db->get_block_already_generated_coins(0));
 
   ASSERT_NO_THROW(this->m_db->add_block(this->m_blocks[1], t_sizes[1], t_sizes[1], t_diffs[1], t_coins[1], this->m_txs[1]));
-  ASSERT_EQ(t_diffs[1] - t_diffs[0], this->m_db->get_block_difficulty(1));
+  ASSERT_EQ(t_diffs[1]() - t_diffs[0](), this->m_db->get_block_difficulty(1)());
 
   ASSERT_HASH_EQ(get_block_hash(this->m_blocks[0].first), this->m_db->get_block_hash_from_height(0));
 

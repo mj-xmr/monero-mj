@@ -41,6 +41,7 @@
 #include "cryptonote_basic.h"
 #include "difficulty.h"
 #include "common/unordered_containers_boost_serialization.h"
+#include "common/difficulty_type.h"
 #include "crypto/crypto.h"
 #include "ringct/rctTypes.h"
 #include "ringct/rctOps.h"
@@ -372,19 +373,19 @@ namespace boost
       a & v;
       x = v;
       // load low part
-      x = x << 64;
+      x() = x() << 64;
       a & v;
-      x += v;
+      x() += v;
     }
     else
     {
       // store high part
-      cryptonote::difficulty_type x_ = (x >> 64) & 0xffffffffffffffff;
-      uint64_t v = x_.convert_to<uint64_t>();
+      cryptonote::difficulty_type x_ = (x() >> 64) & 0xffffffffffffffff;
+      uint64_t v = x_().convert_to<uint64_t>();
       a & v;
       // store low part
-      x_ = x & 0xffffffffffffffff;
-      v = x_.convert_to<uint64_t>();
+      x_ = x() & 0xffffffffffffffff;
+      v = x_().convert_to<uint64_t>();
       a & v;
     }
   }

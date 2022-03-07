@@ -380,7 +380,7 @@ bool t_rpc_command_executor::show_difficulty() {
 
 static void get_metric_prefix(cryptonote::difficulty_type hr, double& hr_d, char& prefix)
 {
-  if (hr < 1000)
+  if (hr() < 1000)
   {
     prefix = 0;
     return;
@@ -388,13 +388,13 @@ static void get_metric_prefix(cryptonote::difficulty_type hr, double& hr_d, char
   static const char metric_prefixes[] = { 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
   for (size_t i = 0; i < sizeof(metric_prefixes); ++i)
   {
-    if (hr < 1000000)
+    if (hr() < 1000000)
     {
-      hr_d = hr.convert_to<double>() / 1000;
+      hr_d = hr().convert_to<double>() / 1000;
       prefix = metric_prefixes[i];
       return;
     }
-    hr /= 1000;
+    hr() /= 1000;
   }
   prefix = 0;
 }
@@ -2032,7 +2032,7 @@ bool t_rpc_command_executor::alt_chain_info(const std::string &tip, size_t above
       {
         tools::msg_writer() << "Time span: " << tools::get_human_readable_timespan(dt);
         cryptonote::difficulty_type start_difficulty = bhres.block_headers.back().difficulty;
-        if (start_difficulty > 0)
+        if (start_difficulty() > 0)
           tools::msg_writer() << "Approximated " << 100.f * DIFFICULTY_TARGET_V2 * chain.length / dt << "% of network hash rate";
         else
           tools::fail_msg_writer() << "Bad cmumulative difficulty reported by dameon";
@@ -2130,7 +2130,7 @@ bool t_rpc_command_executor::print_blockchain_dynamic_stats(uint64_t nblocks)
     std::vector<unsigned> major_versions(256, 0), minor_versions(256, 0);
     for (const auto &bhr: bhres.headers)
     {
-      avgdiff += cryptonote::difficulty_type(bhr.wide_difficulty);
+      avgdiff() += cryptonote::difficulty_type(bhr.wide_difficulty)();
       avgnumtxes += bhr.num_txes;
       avgreward += bhr.reward;
       weights.push_back(bhr.block_weight);
@@ -2141,7 +2141,7 @@ bool t_rpc_command_executor::print_blockchain_dynamic_stats(uint64_t nblocks)
       earliest = std::min(earliest, bhr.timestamp);
       latest = std::max(latest, bhr.timestamp);
     }
-    avgdiff /= nblocks;
+    avgdiff() /= nblocks;
     avgnumtxes /= nblocks;
     avgreward /= nblocks;
     uint64_t median_block_weight = epee::misc_utils::median(weights);

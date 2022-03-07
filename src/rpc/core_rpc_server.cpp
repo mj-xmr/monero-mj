@@ -141,7 +141,7 @@ namespace
 
   void store_difficulty(cryptonote::difficulty_type difficulty, uint64_t &sdiff, std::string &swdiff, uint64_t &stop64)
   {
-    store_128(difficulty, sdiff, swdiff, stop64);
+    store_128(difficulty(), sdiff, swdiff, stop64);
   }
 }
 

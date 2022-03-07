@@ -31,6 +31,7 @@
 #include "checkpoints.h"
 
 #include "common/dns_utils.h"
+#include "common/difficulty_type.h"
 #include "string_tools.h"
 #include "storages/portable_storage_template_helper.h" // epee json include
 #include "serialization/keyvalue_serialization.h"
@@ -93,7 +94,7 @@ namespace cryptonote
         difficulty_type difficulty(difficulty_str);
         if (m_difficulty_points.count(height))
         {
-          CHECK_AND_ASSERT_MES(difficulty == m_difficulty_points[height], false, "Difficulty checkpoint at given height already exists, and difficulty for new checkpoint was different!");
+          CHECK_AND_ASSERT_MES(difficulty() == m_difficulty_points[height](), false, "Difficulty checkpoint at given height already exists, and difficulty for new checkpoint was different!");
         }
         m_difficulty_points[height] = difficulty;
       }

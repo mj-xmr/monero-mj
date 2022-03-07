@@ -39,6 +39,7 @@
 #include "misc_log_ex.h"
 #include "cryptonote_config.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h"
 
 using namespace std;
 
@@ -54,7 +55,7 @@ static int test_wide_difficulty(const char *filename)
     uint64_t timestamp;
     cryptonote::difficulty_type difficulty, cumulative_difficulty = 0;
     size_t n = 0;
-    while (data >> timestamp >> difficulty) {
+    while (data >> timestamp >> difficulty()) {
         size_t begin, end;
         if (n < DIFFICULTY_WINDOW + DIFFICULTY_LAG) {
             begin = 0;
@@ -69,11 +70,11 @@ static int test_wide_difficulty(const char *filename)
         if (res != difficulty) {
             cerr << "Wrong wide difficulty for block " << n << endl
                 << "Expected: " << difficulty << endl
-                << "Found: " << res << endl;
+                << "Found: " << res() << endl;
             return 1;
         }
         timestamps.push_back(timestamp);
-        cumulative_difficulties.push_back(cumulative_difficulty += difficulty);
+        cumulative_difficulties.push_back(cumulative_difficulty() += difficulty());
         ++n;
     }
     if (!data.eof()) {
@@ -124,7 +125,7 @@ int main(int argc, char *argv[]) {
         cryptonote::difficulty_type wide_res = cryptonote::next_difficulty(
             std::vector<uint64_t>(timestamps.begin() + begin, timestamps.begin() + end),
             std::vector<cryptonote::difficulty_type>(wide_cumulative_difficulties.begin() + begin, wide_cumulative_difficulties.begin() + end), DEFAULT_TEST_DIFFICULTY_TARGET);
-        if ((wide_res & 0xffffffffffffffff).convert_to<uint64_t>() != res) {
+        if ((wide_res() & 0xffffffffffffffff).convert_to<uint64_t>() != res) {
             cerr << "Wrong wide difficulty for block " << n << endl
                 << "Expected: " << res << endl
                 << "Found: " << wide_res << endl;
@@ -132,7 +133,7 @@ int main(int argc, char *argv[]) {
         }
         timestamps.push_back(timestamp);
         cumulative_difficulties.push_back(cumulative_difficulty += difficulty);
-        wide_cumulative_difficulties.push_back(wide_cumulative_difficulty += difficulty);
+        wide_cumulative_difficulties.push_back(wide_cumulative_difficulty() += difficulty);
         ++n;
     }
     if (!data.eof()) {

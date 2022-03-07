@@ -29,6 +29,7 @@
 #include "gtest/gtest.h"
 #include "int-util.h"
 #include "cryptonote_basic/difficulty.h"
+#include "common/difficulty_type.h"
 
 static cryptonote::difficulty_type MKDIFF(uint64_t high, uint64_t low)
 {
@@ -40,8 +41,8 @@ static cryptonote::difficulty_type MKDIFF(uint64_t high, uint64_t low)
 static crypto::hash MKHASH(uint64_t high, uint64_t low)
 {
   cryptonote::difficulty_type hash_target = high;
-  hash_target = (hash_target << 64) | low;
-  boost::multiprecision::uint256_t hash_value = std::numeric_limits<boost::multiprecision::uint256_t>::max() / hash_target;
+  hash_target = (hash_target() << 64) | low;
+  boost::multiprecision::uint256_t hash_value = std::numeric_limits<boost::multiprecision::uint256_t>::max() / hash_target();
   crypto::hash h;
   uint64_t val;
   val = (hash_value & 0xffffffffffffffff).convert_to<uint64_t>();
