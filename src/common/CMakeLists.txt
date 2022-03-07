@@ -89,7 +89,8 @@ set(common_private_headers
   timings.h
   combinator.h
   utf8.h
-  difficulty_type.cpp)
+  difficulty_type.h
+  forwardable_wrapper.h)
 
 monero_private_headers(common
   ${common_private_headers})
