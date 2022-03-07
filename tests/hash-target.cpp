@@ -43,16 +43,16 @@ using cryptonote::check_hash;
 int main(int argc, char *argv[]) {
   TRY_ENTRY();
   crypto::hash h;
-  for (cryptonote::difficulty_type diff = 1;; diff += 1 + (diff() >> 8)) {
+  for (cryptonote::difficulty_type diff = 1;; diff() += 1 + (diff.Const() >> 8)) {
     for (uint16_t b = 0; b < 256; b++) {
       memset(&h, b, sizeof(crypto::hash));
-      if (check_hash(h, diff) != (b == 0 || diff() <= 255 / b)) {
+      if (check_hash(h, diff) != (b == 0 || diff.Const() <= 255 / b)) {
         return 1;
       }
       if (b > 0) {
         memset(&h, 0, sizeof(crypto::hash));
         ((char *) &h)[31] = b;
-        if (check_hash(h, diff) != (diff() <= 255 / b)) {
+        if (check_hash(h, diff) != (diff.Const() <= 255 / b)) {
           return 2;
         }
       }

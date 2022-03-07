@@ -31,7 +31,7 @@
 #define forwardable_wrapper_operator_bool(OPER) \
 bool operator OPER (const forwardable_wrapper & other) const \
 { \
-    return val OPER other(); \
+    return val OPER other.Const(); \
 } \
 
 #define forwardable_wrapper_operator_assignment(OPER) \
@@ -66,7 +66,13 @@ namespace cryptonote
         }
         virtual ~forwardable_wrapper(){}
         
+        /*
         const TUnderlying & operator ()() const
+        {
+            return val;
+        }
+        */
+        const TUnderlying & Const() const
         {
             return val;
         }
@@ -82,11 +88,14 @@ namespace cryptonote
         forwardable_wrapper_operator_bool(>=)
         forwardable_wrapper_operator_bool(<=)
         
+        
+        
+        /*
         operator bool() const
         {
             return val ? true : false; 
         }
-
+        */
     protected:
         TUnderlying val;
     private:

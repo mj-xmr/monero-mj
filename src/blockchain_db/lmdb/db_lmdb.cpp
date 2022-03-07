@@ -799,8 +799,8 @@ void BlockchainLMDB::add_block(const block& blk, size_t block_weight, uint64_t l
   bi.bi_timestamp = blk.timestamp;
   bi.bi_coins = coins_generated;
   bi.bi_weight = block_weight;
-  bi.bi_diff_hi = ((cumulative_difficulty() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
-  bi.bi_diff_lo = (cumulative_difficulty() & 0xffffffffffffffff).convert_to<uint64_t>();
+  bi.bi_diff_hi = ((cumulative_difficulty.Const() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
+  bi.bi_diff_lo = (cumulative_difficulty.Const() & 0xffffffffffffffff).convert_to<uint64_t>();
   bi.bi_hash = blk_hash;
   bi.bi_cum_rct = num_rct_outs;
   if (blk.major_version >= 4)
@@ -2811,8 +2811,8 @@ void BlockchainLMDB::correct_block_cumulative_difficulties(const uint64_t& start
 
     mdb_block_info bi = *(mdb_block_info*)key.mv_data;
     const difficulty_type d = new_cumulative_difficulties[height - start_height];
-    bi.bi_diff_hi = ((d() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
-    bi.bi_diff_lo = (d() & 0xffffffffffffffff).convert_to<uint64_t>();
+    bi.bi_diff_hi = ((d.Const() >> 64) & 0xffffffffffffffff).convert_to<uint64_t>();
+    bi.bi_diff_lo = (d.Const() & 0xffffffffffffffff).convert_to<uint64_t>();
 
     MDB_val_set(key2, height);
     MDB_val_set(val, bi);

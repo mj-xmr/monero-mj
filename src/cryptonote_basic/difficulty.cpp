@@ -191,12 +191,12 @@ namespace cryptonote {
       hashVal <<= 64;
       hashVal |= swap64le(((const uint64_t *) &hash)[3 - i]);
     }
-    return hashVal * difficulty() <= max256bit;
+    return hashVal * difficulty.Const() <= max256bit;
   }
 
   bool check_hash(const crypto::hash &hash, const difficulty_type & difficulty) {
     if (difficulty <= max64bit) // if can convert to small difficulty - do it
-      return check_hash_64(hash, difficulty().convert_to<std::uint64_t>());
+      return check_hash_64(hash, difficulty.Const().convert_to<std::uint64_t>());
     else
       return check_hash_128(hash, difficulty);
   }

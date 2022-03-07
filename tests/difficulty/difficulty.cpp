@@ -74,7 +74,7 @@ static int test_wide_difficulty(const char *filename)
             return 1;
         }
         timestamps.push_back(timestamp);
-        cumulative_difficulties.push_back(cumulative_difficulty += difficulty);
+        cumulative_difficulties.push_back(cumulative_difficulty() += difficulty.Const());
         ++n;
     }
     if (!data.eof()) {

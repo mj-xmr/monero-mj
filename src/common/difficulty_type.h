@@ -59,6 +59,9 @@ namespace cryptonote
     public:
         using forwardable_wrapper::forwardable_wrapper; // Inherit all constructors (C++11)
         
+        operator difficulty_type_underlying() {return val;}
+        
+        /*
         difficulty_type_operator_assignment(+=)
         difficulty_type_operator_assignment(-=)
         difficulty_type_operator_assignment(*=)
@@ -69,7 +72,7 @@ namespace cryptonote
         difficulty_type_operator_mathop(-)
         difficulty_type_operator_mathop(*)
         difficulty_type_operator_mathop(/)
-        
+        */
 
     protected:
     private:

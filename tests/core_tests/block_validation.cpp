@@ -50,7 +50,7 @@ namespace
         test_generator::bf_timestamp | test_generator::bf_diffic, 0, 0, blk_prev.timestamp, crypto::hash(), diffic))
         return false;
 
-      commulative_diffic += diffic;
+      commulative_diffic() += diffic.Const();
       if (timestamps.size() == DIFFICULTY_WINDOW)
       {
         timestamps.erase(timestamps.begin());

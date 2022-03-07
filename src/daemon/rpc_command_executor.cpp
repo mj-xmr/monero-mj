@@ -2130,7 +2130,7 @@ bool t_rpc_command_executor::print_blockchain_dynamic_stats(uint64_t nblocks)
     std::vector<unsigned> major_versions(256, 0), minor_versions(256, 0);
     for (const auto &bhr: bhres.headers)
     {
-      avgdiff += cryptonote::difficulty_type(bhr.wide_difficulty);
+      avgdiff() += cryptonote::difficulty_type(bhr.wide_difficulty).Const();
       avgnumtxes += bhr.num_txes;
       avgreward += bhr.reward;
       weights.push_back(bhr.block_weight);
