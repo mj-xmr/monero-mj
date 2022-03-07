@@ -30,6 +30,7 @@
 
 namespace cryptonote
 {
+    /*
     difficulty_type::difficulty_type()
     {
     }
@@ -37,7 +38,7 @@ namespace cryptonote
     difficulty_type::~difficulty_type()
     {
     }
-
+    */
     /*
     const difficulty_type_underlying & difficulty_type::operator ()() const
     {
@@ -53,7 +54,7 @@ namespace cryptonote
     //{
         //return val == other();
     //}
-    
+    /*
     bool difficulty_type::operator != (const difficulty_type & other) const
     {
         return val != other();
@@ -84,7 +85,7 @@ namespace cryptonote
         return val ? true : false; 
     }
     
-    /*
+    
     std::ostream & operator<<(std::ostream & ostr, const difficulty_type & diff)
     {
         return ostr << diff();

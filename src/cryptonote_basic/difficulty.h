@@ -33,13 +33,10 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-//#include <boost/multiprecision/cpp_int.hpp>
-//#include "common/difficulty_type.h" /// TODO: Remove
 #include "crypto/hash.h"
 
 namespace cryptonote
 {
-    //typedef boost::multiprecision::uint128_t difficulty_type;
     class difficulty_type;
 
     /**

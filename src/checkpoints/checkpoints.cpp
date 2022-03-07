@@ -94,7 +94,7 @@ namespace cryptonote
         difficulty_type difficulty(difficulty_str);
         if (m_difficulty_points.count(height))
         {
-          CHECK_AND_ASSERT_MES(difficulty() == m_difficulty_points[height](), false, "Difficulty checkpoint at given height already exists, and difficulty for new checkpoint was different!");
+          CHECK_AND_ASSERT_MES(difficulty == m_difficulty_points[height], false, "Difficulty checkpoint at given height already exists, and difficulty for new checkpoint was different!");
         }
         m_difficulty_points[height] = difficulty;
       }

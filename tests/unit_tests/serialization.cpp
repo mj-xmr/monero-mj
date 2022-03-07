@@ -1164,7 +1164,7 @@ TEST(Serialization, difficulty_type)
   {
     v_original.push_back(cryptonote::difficulty_type("117868131154734361989189100"));
     if(v_original.size() > 1)
-      v_original.back()() *= v_original[v_original.size()-2]();
+      v_original.back() *= v_original[v_original.size()-2];
   }
 
   std::stringstream ss;

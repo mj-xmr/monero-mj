@@ -33,6 +33,20 @@
 #include <cstdint>
 #include <ostream>
 
+
+#define difficulty_type_operator_assignment(OPER) \
+difficulty_type & operator OPER (const difficulty_type & other) \
+{ \
+    val OPER other(); \
+    return *this; \
+} \
+
+#define difficulty_type_operator_mathop(OPER) \
+difficulty_type operator OPER (const difficulty_type & other) const \
+{ \
+    return val OPER other(); \
+} \
+
 namespace cryptonote
 {
     typedef boost::multiprecision::uint128_t difficulty_type_underlying;
@@ -43,27 +57,23 @@ namespace cryptonote
     class difficulty_type : public forwardable_wrapper<difficulty_type_underlying>
     {
     public:
-        difficulty_type();
-        template <class T>
-        difficulty_type(const T & type)
-        {
-            this->operator ()() = difficulty_type_underlying(type);
-        }
-        virtual ~difficulty_type();
+        using forwardable_wrapper::forwardable_wrapper; // Inherit all constructors (C++11)
         
-        //bool operator == (const difficulty_type & other) const;
-        bool operator != (const difficulty_type & other) const;
-        bool operator >  (const difficulty_type & other) const;
-        bool operator <  (const difficulty_type & other) const;
-        bool operator >= (const difficulty_type & other) const;
-        bool operator <= (const difficulty_type & other) const;
+        difficulty_type_operator_assignment(+=)
+        difficulty_type_operator_assignment(-=)
+        difficulty_type_operator_assignment(*=)
+        difficulty_type_operator_assignment(/=)
         
-        operator bool() const;
+        
+        difficulty_type_operator_mathop(+)
+        difficulty_type_operator_mathop(-)
+        difficulty_type_operator_mathop(*)
+        difficulty_type_operator_mathop(/)
+        
 
     protected:
-
     private:
-        //difficulty_type_underlying val;
+
     };
     
     //std::ostream & operator<<(std::ostream & ostr, const difficulty_type & diff);

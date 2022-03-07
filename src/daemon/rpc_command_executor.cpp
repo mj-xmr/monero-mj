@@ -373,7 +373,7 @@ bool t_rpc_command_executor::show_difficulty() {
                               << ", TH: " << res.top_block_hash
                               << ", DIFF: " << cryptonote::difficulty_type(res.wide_difficulty)
                               << ", CUM_DIFF: " << cryptonote::difficulty_type(res.wide_cumulative_difficulty)
-                              << ", HR: " << cryptonote::difficulty_type(res.wide_difficulty) / res.target << " H/s";
+                              << ", HR: " << cryptonote::difficulty_type(res.wide_difficulty)() / res.target << " H/s";
 
   return true;
 }
@@ -522,7 +522,7 @@ bool t_rpc_command_executor::show_status() {
     % (ires.testnet ? "testnet" : ires.stagenet ? "stagenet" : "mainnet")
     % bootstrap_msg
     % (!has_mining_info ? "mining info unavailable" : mining_busy ? "syncing" : mres.active ? ( ( mres.is_background_mining_enabled ? "smart " : "" ) + std::string("mining at ") + get_mining_speed(mres.speed)) : "not mining")
-    % get_mining_speed(cryptonote::difficulty_type(ires.wide_difficulty) / ires.target)
+    % get_mining_speed(cryptonote::difficulty_type(ires.wide_difficulty)() / ires.target)
     % (unsigned)hfres.version
     % get_fork_extra_info(hfres.earliest_height, net_height, ires.target)
     % (unsigned)ires.outgoing_connections_count
@@ -2130,7 +2130,7 @@ bool t_rpc_command_executor::print_blockchain_dynamic_stats(uint64_t nblocks)
     std::vector<unsigned> major_versions(256, 0), minor_versions(256, 0);
     for (const auto &bhr: bhres.headers)
     {
-      avgdiff() += cryptonote::difficulty_type(bhr.wide_difficulty)();
+      avgdiff += cryptonote::difficulty_type(bhr.wide_difficulty);
       avgnumtxes += bhr.num_txes;
       avgreward += bhr.reward;
       weights.push_back(bhr.block_weight);

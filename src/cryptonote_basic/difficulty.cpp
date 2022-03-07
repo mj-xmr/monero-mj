@@ -178,7 +178,7 @@ namespace cryptonote {
   bool check_hash_128(const crypto::hash &hash, const difficulty_type & difficulty) {
 #ifndef FORCE_FULL_128_BITS
     // fast check
-    if (difficulty() >= max64bit() && ((const uint64_t *) &hash)[3] > 0)
+    if (difficulty >= max64bit && ((const uint64_t *) &hash)[3] > 0)
       return false;
 #endif
     // usual slow check
@@ -195,7 +195,7 @@ namespace cryptonote {
   }
 
   bool check_hash(const crypto::hash &hash, const difficulty_type & difficulty) {
-    if (difficulty() <= max64bit()) // if can convert to small difficulty - do it
+    if (difficulty <= max64bit) // if can convert to small difficulty - do it
       return check_hash_64(hash, difficulty().convert_to<std::uint64_t>());
     else
       return check_hash_128(hash, difficulty);
@@ -232,12 +232,12 @@ namespace cryptonote {
     if (time_span == 0) {
       time_span = 1;
     }
-    difficulty_type total_work = cumulative_difficulties[cut_end - 1]() - cumulative_difficulties[cut_begin]();
+    difficulty_type total_work = cumulative_difficulties[cut_end - 1] - cumulative_difficulties[cut_begin];
     assert(total_work > 0);
     boost::multiprecision::uint256_t res =  (boost::multiprecision::uint256_t(total_work()) * target_seconds + time_span - 1) / time_span;
     if(res > max128bit)
       return 0; // to behave like previous implementation, may be better return max128bit?
-    return res.convert_to<difficulty_type_underlying>();
+    return res.convert_to<difficulty_type::value_type>();
   }
 
   std::string hex(const difficulty_type & par)

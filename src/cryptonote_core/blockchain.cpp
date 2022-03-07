@@ -842,7 +842,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
 
   int done = 0;
   ss << "get_difficulty_for_next_block: height " << m_db->height() << std::endl;
-  if (m_fixed_difficulty())
+  if (m_fixed_difficulty)
   {
     return m_db->height() ? m_fixed_difficulty() : 1;
   }
@@ -1031,8 +1031,8 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
     difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target);
 
     boost::multiprecision::uint256_t recalculated_cum_diff_256 = boost::multiprecision::uint256_t(recalculated_diff()) + last_cum_diff();
-    CHECK_AND_ASSERT_THROW_MES(recalculated_cum_diff_256 <= std::numeric_limits<difficulty_type_underlying>::max(), "Difficulty overflow!");
-    difficulty_type recalculated_cum_diff = recalculated_cum_diff_256.convert_to<difficulty_type_underlying>();
+    CHECK_AND_ASSERT_THROW_MES(recalculated_cum_diff_256 <= std::numeric_limits<difficulty_type::value_type>::max(), "Difficulty overflow!");
+    difficulty_type recalculated_cum_diff = recalculated_cum_diff_256.convert_to<difficulty_type::value_type>();
 
     if (drift_start_height == 0)
     {
@@ -2035,7 +2035,7 @@ bool Blockchain::handle_alternative_block(const block& b, const crypto::hash& id
       // passed-in block's previous block's cumulative difficulty, found on the main chain
       bei.cumulative_difficulty = m_db->get_block_cumulative_difficulty(m_db->get_block_height(b.prev_id));
     }
-    bei.cumulative_difficulty() += current_diff();
+    bei.cumulative_difficulty += current_diff;
 
     bei.block_cumulative_weight = cryptonote::get_transaction_weight(b.miner_tx);
     for (const crypto::hash &txid: b.tx_hashes)
@@ -4332,7 +4332,7 @@ leave:
   // subsidy of 0 under the base formula and therefore the minimum subsidy >0 in the tail state.
   already_generated_coins = base_reward < (MONEY_SUPPLY-already_generated_coins) ? already_generated_coins + base_reward : MONEY_SUPPLY;
   if(blockchain_height)
-    cumulative_difficulty() += m_db->get_block_cumulative_difficulty(blockchain_height - 1)();
+    cumulative_difficulty += m_db->get_block_cumulative_difficulty(blockchain_height - 1);
 
   TIME_MEASURE_FINISH(block_processing_time);
   if(precomputed)

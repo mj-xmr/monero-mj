@@ -34,18 +34,36 @@ bool operator OPER (const forwardable_wrapper & other) const \
     return val OPER other(); \
 } \
 
+#define forwardable_wrapper_operator_assignment(OPER) \
+forwardable_wrapper & operator OPER (const forwardable_wrapper & other) \
+{ \
+    val OPER other(); \
+    return *this; \
+} \
+
+#define forwardable_wrapper_operator_mathop(OPER) \
+forwardable_wrapper operator OPER (const forwardable_wrapper & other) const \
+{ \
+    return val OPER other(); \
+} \
+
 namespace cryptonote
 {    
     /**
-    A wrapper of the forwardable_wrapper_underlying, that can be forward-declared.
+    A wrapper of the TUnderlying, that can be forward-declared.
     */
     template <class TUnderlying>
     class forwardable_wrapper
     {
     public:
         using value_type = TUnderlying;
-        forwardable_wrapper(){}
         
+        forwardable_wrapper(){}
+        template <class TForeign>
+        forwardable_wrapper(const TForeign & typeForeign)
+        {
+            val = TUnderlying(typeForeign);
+        }
         virtual ~forwardable_wrapper(){}
         
         const TUnderlying & operator ()() const
@@ -58,15 +76,16 @@ namespace cryptonote
         }
         
         forwardable_wrapper_operator_bool(==)
-        /*
-        bool operator == (const forwardable_wrapper & other) const;
-        bool operator != (const forwardable_wrapper & other) const;
-        bool operator >  (const forwardable_wrapper & other) const;
-        bool operator <  (const forwardable_wrapper & other) const;
-        bool operator >= (const forwardable_wrapper & other) const;
-        bool operator <= (const forwardable_wrapper & other) const;
-        */
-        operator bool() const;
+        forwardable_wrapper_operator_bool(!=)
+        forwardable_wrapper_operator_bool(>)
+        forwardable_wrapper_operator_bool(<)
+        forwardable_wrapper_operator_bool(>=)
+        forwardable_wrapper_operator_bool(<=)
+        
+        operator bool() const
+        {
+            return val ? true : false; 
+        }
 
     protected:
         TUnderlying val;
