@@ -26,13 +26,20 @@
 // INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//#include "pch_ut.h"
+#include "pch_ut.h"
 #include "decoy_wrappers.h"
-#include "gtest/gtest.h"
+#include "wallet/wallet2.h"
 
-TEST(decoy, first)
-{
-  static const size_t a = 2;
-  ASSERT_EQ(1, a);
+extern "C" {
+//#include "crypto/keccak.h"
 }
 
+wallet2_wrapper::wallet2_wrapper()
+: pwallet(std::make_unique<tools::wallet2>())
+{
+    
+}
+wallet2_wrapper::~wallet2_wrapper()
+{
+    
+}

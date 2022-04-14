@@ -44,6 +44,7 @@ set(unit_tests_sources
   crypto.cpp
   decompose_amount_into_digits.cpp
   decoy.cpp
+  decoy_wrappers.cpp
   device.cpp
   difficulty.cpp
   dns_resolver.cpp
@@ -103,6 +104,7 @@ set(unit_tests_sources
   zmq_rpc.cpp)
 
 set(unit_tests_headers
+  decoy_wrappers.h
   unit_tests_utils.h)
 
 monero_add_minimal_executable(unit_tests
@@ -139,6 +141,8 @@ if (NOT MSVC)
     PROPERTY
       COMPILE_FLAGS " -Wno-undef -Wno-sign-compare")
 endif ()
+
+monero_use_pch_private(unit_tests pch_ut.h)
 
 SET_PROPERTY(SOURCE main.cpp PROPERTY COMPILE_FLAGS -DDEFAULT_DATA_DIR="\\"${CMAKE_SOURCE_DIR}/tests/data\\"")
 

@@ -26,13 +26,21 @@
 // INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//#include "pch_ut.h"
-#include "decoy_wrappers.h"
-#include "gtest/gtest.h"
 
-TEST(decoy, first)
+#include <memory>
+
+namespace tools
 {
-  static const size_t a = 2;
-  ASSERT_EQ(1, a);
+    class wallet2;
 }
 
+
+class wallet2_wrapper
+{
+public:
+    wallet2_wrapper();
+    virtual ~wallet2_wrapper();
+    
+private:
+    std::unique_ptr<tools::wallet2> pwallet;
+};
