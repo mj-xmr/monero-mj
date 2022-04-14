@@ -43,6 +43,7 @@ set(unit_tests_sources
   command_line.cpp
   crypto.cpp
   decompose_amount_into_digits.cpp
+  decoy.cpp
   device.cpp
   difficulty.cpp
   dns_resolver.cpp
