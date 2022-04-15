@@ -142,7 +142,7 @@ if (NOT MSVC)
       COMPILE_FLAGS " -Wno-undef -Wno-sign-compare")
 endif ()
 
-monero_use_pch_private(unit_tests pch_ut.h)
+#monero_use_pch_private(unit_tests pch_ut.h)
 
 SET_PROPERTY(SOURCE main.cpp PROPERTY COMPILE_FLAGS -DDEFAULT_DATA_DIR="\\"${CMAKE_SOURCE_DIR}/tests/data\\"")
 

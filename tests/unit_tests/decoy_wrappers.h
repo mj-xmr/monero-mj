@@ -28,6 +28,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <memory>
+#include <vector>
 
 namespace tools
 {
@@ -40,6 +41,10 @@ class wallet2_wrapper
 public:
     wallet2_wrapper();
     virtual ~wallet2_wrapper();
+    
+    void gamma() const;
+    
+    //bool tx_add_fake_output_wrap(std::vector<std::vector<tools::wallet2::get_outs_entry>> &outs, uint64_t global_index, const crypto::public_key& output_public_key, const rct::key& mask, uint64_t real_index, bool unlocked) const;
     
 private:
     std::unique_ptr<tools::wallet2> pwallet;

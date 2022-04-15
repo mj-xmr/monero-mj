@@ -43,3 +43,20 @@ wallet2_wrapper::~wallet2_wrapper()
 {
     
 }
+
+void wallet2_wrapper::gamma() const
+{
+    std::vector<uint64_t> rct_offsets = {0, 1, 3};
+    tools::gamma_picker picker(rct_offsets);
+}
+
+//bool wallet2_wrapper::tx_add_fake_output_wrap(std::vector<std::vector<tools::wallet2::get_outs_entry>> &outs, uint64_t global_index, const crypto::public_key& output_public_key, const rct::key& mask, uint64_t real_index, bool unlocked) const
+//{
+    
+//}
+
+// void wallet2::get_outs
+
+
+
+    

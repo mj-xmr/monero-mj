@@ -30,9 +30,9 @@
 #include "decoy_wrappers.h"
 #include "gtest/gtest.h"
 
-TEST(decoy, first)
+TEST(decoy, gamma)
 {
-  static const size_t a = 2;
+  static const size_t a = 1;
+  wallet2_wrapper().gamma();
   ASSERT_EQ(1, a);
 }
-
