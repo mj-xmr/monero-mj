@@ -48,6 +48,7 @@ using namespace epee;
 #include "cryptonote_basic/merge_mining.h"
 #include "cryptonote_core/tx_sanity_check.h"
 #include "misc_language.h"
+#include "net/local_ip.h"
 #include "net/parse.h"
 #include "storages/http_abstract_invoke.h"
 #include "crypto/hash.h"
@@ -2890,7 +2891,17 @@ namespace cryptonote
       return r;
 
     CHECK_PAYMENT(req, res, COST_PER_FEE_ESTIMATE);
-    res.fee = m_core.get_blockchain_storage().get_dynamic_base_fee_estimate(req.grace_blocks);
+
+    const uint8_t version = m_core.get_blockchain_storage().get_current_hard_fork_version();
+    if (version >= HF_VERSION_2021_SCALING)
+    {
+      m_core.get_blockchain_storage().get_dynamic_base_fee_estimate_2021_scaling(req.grace_blocks, res.fees);
+      res.fee = res.fees[0];
+    }
+    else
+    {
+      res.fee = m_core.get_blockchain_storage().get_dynamic_base_fee_estimate(req.grace_blocks);
+    }
     res.quantization_mask = Blockchain::get_fee_quantization_mask();
     res.status = CORE_RPC_STATUS_OK;
     return true;
