@@ -30,6 +30,9 @@
 #include "decoy_wrappers.h"
 #include "wallet/wallet2.h"
 
+#define GAMMA_SHAPE 19.28
+#define GAMMA_SCALE (1/1.61)
+
 extern "C" {
 //#include "crypto/keccak.h"
 }
@@ -42,11 +45,11 @@ const uint64_t wallet2_wrapper::MIN_RCT_LENGTH = CRYPTONOTE_DEFAULT_TX_SPENDABLE
 wallet2_wrapper::wallet2_wrapper()
 : pwallet(std::make_unique<tools::wallet2>())
 {
-    
+
 }
 wallet2_wrapper::~wallet2_wrapper()
 {
-    
+
 }
 
 void wallet2_wrapper::gamma(int numberRCTs) const
@@ -74,13 +77,46 @@ std::vector<uint64_t> wallet2_wrapper::init_offests(int numberRCTs) const
     return rct_offsets;
 }
 
+static uint64_t xxx = 3;
+struct gamma_engine_x
+    {
+        //gamma_engine_x(uint64_t x)
+        //:x (x)
+        //{
+
+        //}
+        //uint64_t x = 0;
+      typedef uint64_t result_type;
+      static constexpr result_type min() { return 0; }
+      static constexpr result_type max() { return std::numeric_limits<result_type>::max(); }
+      //result_type max() { return x; }
+      result_type operator()() { return xxx++; }
+    } ;
+
+    struct gamma_engine
+    {
+      typedef uint64_t result_type;
+      static constexpr result_type min() { return 0; }
+      static constexpr result_type max() { return std::numeric_limits<result_type>::max(); }
+      result_type operator()() { return crypto::rand<result_type>(); }
+    };
+
+double wallet2_wrapper::gamma_distrib(double x) const
+{
+    std::gamma_distribution<double> gamma = std::gamma_distribution<double>(GAMMA_SHAPE, GAMMA_SCALE);
+    //auto engine = gamma_engine_x(x);
+    //auto engine = gamma_engine_x();
+    auto engine = gamma_engine();
+    return gamma(engine);
+}
+
 //bool wallet2_wrapper::tx_add_fake_output_wrap(std::vector<std::vector<tools::wallet2::get_outs_entry>> &outs, uint64_t global_index, const crypto::public_key& output_public_key, const rct::key& mask, uint64_t real_index, bool unlocked) const
 //{
-    
+
 //}
 
 // void wallet2::get_outs
 
 
 
-    
+

@@ -94,6 +94,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
         int num_hits = 0;
         for (int i = 0; i < NUM_DRAWS; ++i)
         {
+            //continue;
             const uint64_t pick = wallet2_wrapper().gamma_pick(wallet2_wrapper::MIN_RCT_LENGTH * mul);
             if (pick != wallet2_wrapper::BAD_PICK)
             {
@@ -106,5 +107,20 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     }
     std::cout << "Num draws = " << NUM_DRAWS << std::endl;
     std::cout << "Data stored in = " << fileNameOut << std::endl;
+}
+
+TEST(decoy, gamma_export_distrib)
+{
+    const int NUM_DRAWS = 5000;
+    const char * fileNameOut  = "/tmp/gamma_distrib.csv";
+    std::ofstream fout(fileNameOut);
+    for (double i = 0; i <= NUM_DRAWS ; ++i)
+    {
+        //std::cout << "i = " << i << std::endl;
+        const double val = wallet2_wrapper().gamma_distrib(i);
+        fout << val << '\n';
+        //std::cout << "i = " << i << ", gamma = " << val << std::endl;
+    }
+    std::cout << "Gamma Data stored in = " << fileNameOut << std::endl;
 }
 

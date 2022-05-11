@@ -45,6 +45,7 @@ public:
     void gamma(int numberRCTs) const;
     uint64_t gamma_pick(int numberRCTs) const;
     std::vector<uint64_t> init_offests(int numberRCTs) const;
+    double gamma_distrib(double x) const;
     
     //bool tx_add_fake_output_wrap(std::vector<std::vector<tools::wallet2::get_outs_entry>> &outs, uint64_t global_index, const crypto::public_key& output_public_key, const rct::key& mask, uint64_t real_index, bool unlocked) const;
     
