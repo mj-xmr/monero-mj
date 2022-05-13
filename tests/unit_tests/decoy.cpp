@@ -86,7 +86,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
     const int NUM_DRAWS = 100;
-    const char * fileNameOut  = "/tmp/mul_2_ratio_good.csv";
+    const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
     std::ofstream fout(fileNameOut);
     fout << "# multiplier_of_the_minimal_vector_length" << "," << "ratio_good_picks" << '\n';
     for (double mul = 1e5; mul >= 1; mul *= 0.85)
@@ -112,7 +112,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
 TEST(decoy, gamma_export_distrib)
 {
     const int NUM_DRAWS = 5000;
-    const char * fileNameOut  = "/tmp/gamma_distrib.csv";
+    const char * fileNameOut  = "/tmp/mrl_gamma_distrib.csv";
     std::ofstream fout(fileNameOut);
     for (double i = 0; i <= NUM_DRAWS ; ++i)
     {
