@@ -22,7 +22,7 @@ env:
         ccache --set-config=compression=true
 
 jobs:
-  build-macos:
+  time-macos:
     runs-on: macOS-latest
     env:
       CCACHE_TEMPDIR: /tmp/.ccache-temp
@@ -47,7 +47,7 @@ jobs:
 # See the OS labels and monitor deprecations here:
 # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
 
-  build-ubuntu:
+  time-ubuntu:
     runs-on: ${{ matrix.os }}
     env:
       CCACHE_TEMPDIR: /tmp/.ccache-temp
