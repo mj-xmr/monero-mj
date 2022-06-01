@@ -41,7 +41,6 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         git clone --recursive https://github.com/mj-xmr/monero-patches.git
-        ls
         time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests
 
 
@@ -76,4 +75,5 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         git clone --recursive https://github.com/mj-xmr/monero-patches.git
+        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests
 
