@@ -83,6 +83,6 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         ${{env.CLONE_PATCHES}}
-        echo "Does't work yet :("
+        echo "Does't work yet :(. Needs fixes on Monero's end?"
         ls || time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests ninja
 
