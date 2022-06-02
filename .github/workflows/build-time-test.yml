@@ -20,7 +20,9 @@ env:
         ccache --set-config=compression=true
   TEST_BUILD_TIME: |
         git clone --recursive https://github.com/mj-xmr/monero-patches.git
-        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests
+        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build external/easylogging++
+        
+# tests/core_tests        
 
 jobs:
   time-macos:
@@ -36,7 +38,7 @@ jobs:
     - name: build
       run: |
         ${{env.CCACHE_SETTINGS}}
-        ${{env.TEST_BUILD_TIME}}
+        ls
 
 # See the OS labels and monitor deprecations here:
 # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
@@ -81,5 +83,5 @@ jobs:
     - name: build
       run: |
         ${{env.CCACHE_SETTINGS}}
-        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests ninja
+        ${{env.TEST_BUILD_TIME}} ninja
 
