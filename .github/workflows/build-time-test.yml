@@ -84,5 +84,5 @@ jobs:
         ${{env.CCACHE_SETTINGS}}
         ${{env.CLONE_PATCHES}}
         echo "Does't work yet :("
-        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build external/easylogging++ ninja
+        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests ninja
 
