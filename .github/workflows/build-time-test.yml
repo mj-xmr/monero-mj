@@ -18,9 +18,8 @@ env:
   CCACHE_SETTINGS: |
         ccache --max-size=150M
         ccache --set-config=compression=true
-  TEST_BUILD_TIME: |
-        git clone --recursive https://github.com/mj-xmr/monero-patches.git
-        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build external/easylogging++
+  CLONE_PATCHES: git clone --recursive https://github.com/mj-xmr/monero-patches.git
+  TEST_BUILD_TIME: time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build external/easylogging++
         
 # tests/core_tests        
 
@@ -62,6 +61,7 @@ jobs:
     - name: build
       run: |
         ${{env.CCACHE_SETTINGS}}
+        ${{env.CLONE_PATCHES}}
         ${{env.TEST_BUILD_TIME}}
 
   time-ubuntu-ninja:
@@ -83,5 +83,5 @@ jobs:
     - name: build
       run: |
         ${{env.CCACHE_SETTINGS}}
-        ${{env.TEST_BUILD_TIME}} ninja
-
+        ${{env.CLONE_PATCHES}}
+        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build external/easylogging++ ninja
