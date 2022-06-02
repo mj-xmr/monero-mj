@@ -81,5 +81,5 @@ jobs:
     - name: build
       run: |
         ${{env.CCACHE_SETTINGS}}
-        ${{env.TEST_BUILD_TIME}} ninja
+        time ./monero-patches/src/monero-test-build-time.sh cmake-unity-build tests/core_tests ninja
 
