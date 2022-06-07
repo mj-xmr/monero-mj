@@ -89,7 +89,8 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
     std::ofstream fout(fileNameOut);
     fout << "# multiplier_of_the_minimal_vector_length" << "," << "ratio_good_picks" << '\n';
-    for (double mul = 1e5; mul >= 1; mul *= 0.85)
+    //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
+    for (double mul = 1e5; mul >= 50; mul *= 0.85)
     {
         int num_hits = 0;
         for (int i = 0; i < NUM_DRAWS; ++i)
