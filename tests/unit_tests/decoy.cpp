@@ -40,6 +40,50 @@ Each test is accompanied with the previous decision lines and last line, which i
 Currently referenced tag = v0.17.3.0
 */
 
+namespace {
+    void run_picker(int minMul, int maxMul, int numDraws = 100, const std::string & fileNameOut = "")
+{
+    // https://github.com/monero-project/monero/blob/v0.17.3.0/src/wallet/wallet2.cpp#L1079
+    /*
+    Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
+    */
+    const int NUM_DRAWS = numDraws;
+    //const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
+    std::ofstream fout;
+    if (fileNameOut.size())
+    {
+        fout = std::ofstream(fileNameOut);
+        fout << "# multiplier_of_the_minimal_vector_length" << "," << "ratio_good_picks" << '\n';
+    }
+    //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
+    for (double mul = maxMul; mul >= minMul; mul *= 0.85)
+    {
+        int num_hits = 0;
+        for (int i = 0; i < NUM_DRAWS; ++i)
+        {
+            //continue;
+            const uint64_t pick = wallet2_wrapper().gamma_pick(wallet2_wrapper::MIN_RCT_LENGTH * mul);
+            if (pick != wallet2_wrapper::BAD_PICK)
+            {
+                ++num_hits;
+            }
+        }
+        const double ratio_good_picks = num_hits / double(NUM_DRAWS);
+        if (fout.is_open())
+        {
+            fout << mul << "," << ratio_good_picks << '\n';
+        }
+        std::cout << "mul = " << mul << ",\tRatio good 2 all = " << ratio_good_picks << std::endl;
+    }
+    std::cout << "Num draws = " << NUM_DRAWS << std::endl;
+    if (fout.is_open())
+    {
+        std::cout << "Data stored in = " << fileNameOut << std::endl;
+    }
+}
+
+}
+
 TEST(decoy, gamma_lessEqual_than_spendable_age_Throws)
 {
     // https://github.com/monero-project/monero/blob/v0.17.3.0/src/wallet/wallet2.cpp#L1020
@@ -86,28 +130,19 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
     const int NUM_DRAWS = 100;
-    const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
-    std::ofstream fout(fileNameOut);
-    fout << "# multiplier_of_the_minimal_vector_length" << "," << "ratio_good_picks" << '\n';
-    //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
-    for (double mul = 1e5; mul >= 50; mul *= 0.85)
-    {
-        int num_hits = 0;
-        for (int i = 0; i < NUM_DRAWS; ++i)
-        {
-            //continue;
-            const uint64_t pick = wallet2_wrapper().gamma_pick(wallet2_wrapper::MIN_RCT_LENGTH * mul);
-            if (pick != wallet2_wrapper::BAD_PICK)
-            {
-                ++num_hits;
-            }
-        }
-        const double ratio_good_picks = num_hits / double(NUM_DRAWS);
-        fout << mul << "," << ratio_good_picks << '\n';
-        std::cout << "mul = " << mul << ",\tRatio good 2 all = " << ratio_good_picks << std::endl;
-    }
-    std::cout << "Num draws = " << NUM_DRAWS << std::endl;
-    std::cout << "Data stored in = " << fileNameOut << std::endl;
+    const char * fileNameOut = "/tmp/mrl_mul_2_ratio_good.csv";
+    run_picker(50, 1e5, NUM_DRAWS, fileNameOut);    // This matches the Python implementation
+    //run_picker(1, 1e5, NUM_DRAWS, fileNameOut);   // What it should be
+}
+
+TEST(decoy, gamma_test)
+{
+    // https://github.com/monero-project/monero/blob/v0.17.3.0/src/wallet/wallet2.cpp#L1079
+    /*
+    A corner case for the Python version, where anything below 50 crashes the calculations
+    */
+    const int NUM_DRAWS = 100;
+    run_picker(1, 50, NUM_DRAWS);
 }
 
 TEST(decoy, gamma_export_distrib)
