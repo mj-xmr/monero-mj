@@ -47,6 +47,7 @@ namespace {
     /*
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
+    std::cout << "Running picker " << maxMul << " down to " << minMul << ", num draws = " << numDraws << '\n';
     const int NUM_DRAWS = numDraws;
     //const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
     std::ofstream fout;
@@ -71,7 +72,7 @@ namespace {
         const double ratio_good_picks = num_hits / double(NUM_DRAWS);
         if (fout.is_open())
         {
-            fout << mul << "," << ratio_good_picks << '\n';
+            fout << mul << " " << ratio_good_picks << '\n';
         }
         std::cout << "mul = " << mul << ",\tRatio good 2 all = " << ratio_good_picks << std::endl;
     }
@@ -131,8 +132,25 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     */
     const int NUM_DRAWS = 100;
     const char * fileNameOut = "/tmp/mrl_mul_2_ratio_good.csv";
-    run_picker(50, 1e5, NUM_DRAWS, fileNameOut);    // This matches the Python implementation
-    //run_picker(1, 1e5, NUM_DRAWS, fileNameOut);   // What it should be
+    //run_picker(50, 1e5, NUM_DRAWS, fileNameOut);    // This matches the Python implementation
+    run_picker(1, 1e5, NUM_DRAWS, fileNameOut);   // What it should be
+}
+
+TEST(decoy, gamma_multiple)
+{
+    // https://github.com/monero-project/monero/blob/v0.17.3.0/src/wallet/wallet2.cpp#L1079
+    /*
+    Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
+    */
+    //const int NUM_DRAWS = 100000; // Full blown, but the results are quite unreal.
+    const int NUM_DRAWS = 100; // Minimalistic, yet still delivers convincing results
+    const std::string fileNameOutBase = "/tmp/mrl_mul_2_ratio_good_";
+    const int maxFiles = 20;
+    for (int i = 0; i < maxFiles; ++i)
+    {
+        std::cout << "Running " << i << " of " << maxFiles << '\n';
+        run_picker(1, 1e5, NUM_DRAWS, fileNameOutBase + std::to_string(i) + ".csv");    // This matches the Python implementation
+    }
 }
 
 TEST(decoy, gamma_test)
@@ -142,7 +160,7 @@ TEST(decoy, gamma_test)
     A corner case for the Python version, where anything below 50 crashes the calculations
     */
     const int NUM_DRAWS = 100;
-    run_picker(1, 50, NUM_DRAWS);
+    //run_picker(1, 50, NUM_DRAWS);
 }
 
 TEST(decoy, gamma_export_distrib)
