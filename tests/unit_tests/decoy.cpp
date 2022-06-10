@@ -34,6 +34,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <cmath>
 
 /*
 Each test is accompanied with the previous decision lines and last line, which is reached by this decision branch.
@@ -51,38 +52,61 @@ namespace {
     const int NUM_DRAWS = numDraws;
     //const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
     std::ofstream fout;
-    if (fileNameOut.size())
-    {
-        fout = std::ofstream(fileNameOut);
-        fout << "# multiplier_of_the_minimal_vector_length" << "," << "ratio_good_picks" << '\n';
-    }
+    
     //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
     for (double mul = maxMul; mul >= minMul; mul *= 0.85)
     {
         int num_hits = 0;
+        std::vector<uint64_t> picks;
         for (int i = 0; i < NUM_DRAWS; ++i)
         {
             //continue;
             const uint64_t pick = wallet2_wrapper().gamma_pick(wallet2_wrapper::MIN_RCT_LENGTH * mul);
             if (pick != wallet2_wrapper::BAD_PICK)
             {
+                picks.push_back(pick);
                 ++num_hits;
             }
+        }
+        if (fileNameOut.size())
+        {
+            const std::string name = fileNameOut + "_" + std::to_string(int(std::floor(mul))) + ".csv";
+            fout = std::ofstream(name);
+            for (auto pick : picks)
+            {
+                fout << pick << '\n';
+            }
+            std::cout << "Data stored in = " << name << std::endl;
         }
         const double ratio_good_picks = num_hits / double(NUM_DRAWS);
         if (fout.is_open())
         {
-            fout << mul << " " << ratio_good_picks << '\n';
+            //fout << mul << " " << ratio_good_picks << '\n';
         }
         std::cout << "mul = " << mul << ",\tRatio good 2 all = " << ratio_good_picks << std::endl;
     }
     std::cout << "Num draws = " << NUM_DRAWS << std::endl;
     if (fout.is_open())
     {
-        std::cout << "Data stored in = " << fileNameOut << std::endl;
+        //std::cout << "Data stored in = " << fileNameOut << std::endl;
     }
 }
 
+}
+
+TEST(decoy, gamma_export_distrib)
+{
+    const int NUM_DRAWS = 5000;
+    const char * fileNameOut  = "/tmp/mrl_gamma_distrib.csv";
+    std::ofstream fout(fileNameOut);
+    for (double i = 0; i <= NUM_DRAWS ; ++i)
+    {
+        //std::cout << "i = " << i << std::endl;
+        const double val = wallet2_wrapper().gamma_distrib(i);
+        fout << val << '\n';
+        //std::cout << "i = " << i << ", gamma = " << val << std::endl;
+    }
+    std::cout << "Gamma Data stored in = " << fileNameOut << std::endl;
 }
 
 TEST(decoy, gamma_lessEqual_than_spendable_age_Throws)
@@ -130,10 +154,9 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     /*
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
-    const int NUM_DRAWS = 100;
-    const char * fileNameOut = "/tmp/mrl_mul_2_ratio_good.csv";
-    //run_picker(50, 1e5, NUM_DRAWS, fileNameOut);    // This matches the Python implementation
-    run_picker(1, 1e5, NUM_DRAWS, fileNameOut);   // What it should be
+    const int NUM_DRAWS = 100000;
+    const char * fileNameOut = "/tmp/mrl_pick_mul_length";
+    run_picker(1, 1e5, NUM_DRAWS, fileNameOut);
 }
 
 TEST(decoy, gamma_multiple)
@@ -146,10 +169,10 @@ TEST(decoy, gamma_multiple)
     const int NUM_DRAWS = 100; // Minimalistic, yet still delivers convincing results
     const std::string fileNameOutBase = "/tmp/mrl_mul_2_ratio_good_";
     const int maxFiles = 20;
-    for (int i = 0; i < maxFiles; ++i)
+    for (int i = 10; i < maxFiles; ++i)
     {
         std::cout << "Running " << i << " of " << maxFiles << '\n';
-        run_picker(1, 1e5, NUM_DRAWS, fileNameOutBase + std::to_string(i) + ".csv");    // This matches the Python implementation
+        //run_picker(1, 1e5, NUM_DRAWS, fileNameOutBase + std::to_string(i) + ".csv");    // This matches the Python implementation
     }
 }
 
@@ -163,18 +186,4 @@ TEST(decoy, gamma_test)
     //run_picker(1, 50, NUM_DRAWS);
 }
 
-TEST(decoy, gamma_export_distrib)
-{
-    const int NUM_DRAWS = 5000;
-    const char * fileNameOut  = "/tmp/mrl_gamma_distrib.csv";
-    std::ofstream fout(fileNameOut);
-    for (double i = 0; i <= NUM_DRAWS ; ++i)
-    {
-        //std::cout << "i = " << i << std::endl;
-        const double val = wallet2_wrapper().gamma_distrib(i);
-        fout << val << '\n';
-        //std::cout << "i = " << i << ", gamma = " << val << std::endl;
-    }
-    std::cout << "Gamma Data stored in = " << fileNameOut << std::endl;
-}
 
