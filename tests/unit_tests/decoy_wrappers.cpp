@@ -52,13 +52,13 @@ wallet2_wrapper::~wallet2_wrapper()
 
 }
 
-void wallet2_wrapper::gamma(int numberRCTs) const
+void wallet2_wrapper::gamma(uint64_t numberRCTs) const
 {
     const std::vector<uint64_t> rct_offsets = init_offests(numberRCTs);
     tools::gamma_picker picker(rct_offsets);
 }
 
-uint64_t wallet2_wrapper::gamma_pick(int numberRCTs) const
+uint64_t wallet2_wrapper::gamma_pick(uint64_t numberRCTs) const
 {
     const std::vector<uint64_t> rct_offsets = init_offests(numberRCTs);
     tools::gamma_picker picker(rct_offsets);
@@ -66,10 +66,25 @@ uint64_t wallet2_wrapper::gamma_pick(int numberRCTs) const
     return pick;
 }
 
-std::vector<uint64_t> wallet2_wrapper::init_offests(int numberRCTs) const
+void wallet2_wrapper::gamma_pick_reinit(const std::vector<uint64_t> & rct_offsets)
+{
+    //if (ppicker == nullptr)
+    {
+        ppicker = std::make_unique<tools::gamma_picker>(rct_offsets);
+    }
+}
+
+uint64_t wallet2_wrapper::gamma_pick_inited() const
+{
+    //return 0;
+    const uint64_t pick = ppicker->pick();
+    return pick;
+}
+
+std::vector<uint64_t> wallet2_wrapper::init_offests(uint64_t numberRCTs) const
 {
     std::vector<uint64_t> rct_offsets;
-    for (int i = 0; i < numberRCTs; ++i)
+    for (uint64_t i = 0; i < numberRCTs; ++i)
     {
         rct_offsets.push_back(i + 1);
         //rct_offsets.push_back(1); // Should make no difference, since the values aren't really read (?)

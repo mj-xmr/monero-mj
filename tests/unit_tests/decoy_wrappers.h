@@ -33,6 +33,7 @@
 namespace tools
 {
     class wallet2;
+    class gamma_picker;
 }
 
 
@@ -42,9 +43,11 @@ public:
     wallet2_wrapper();
     virtual ~wallet2_wrapper();
     
-    void gamma(int numberRCTs) const;
-    uint64_t gamma_pick(int numberRCTs) const;
-    std::vector<uint64_t> init_offests(int numberRCTs) const;
+    void gamma(uint64_t numberRCTs) const;
+    uint64_t gamma_pick(uint64_t numberRCTs) const;
+    void gamma_pick_reinit(const std::vector<uint64_t> & numberRCTs);
+    uint64_t gamma_pick_inited() const;
+    std::vector<uint64_t> init_offests(uint64_t numberRCTs) const;
     double gamma_distrib(double x) const;
     
     //bool tx_add_fake_output_wrap(std::vector<std::vector<tools::wallet2::get_outs_entry>> &outs, uint64_t global_index, const crypto::public_key& output_public_key, const rct::key& mask, uint64_t real_index, bool unlocked) const;
@@ -54,4 +57,5 @@ public:
     
 private:
     std::unique_ptr<tools::wallet2> pwallet;
+    std::unique_ptr<tools::gamma_picker> ppicker;
 };

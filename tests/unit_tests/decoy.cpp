@@ -56,13 +56,22 @@ namespace {
     //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
     for (double mul = maxMul; mul >= minMul; mul *= 0.85)
     {
+        const uint64_t len = wallet2_wrapper::MIN_RCT_LENGTH * mul;
+        wallet2_wrapper wrapper;
+        const std::vector<uint64_t> rct_offsets = wrapper.init_offests(len);
+        wrapper.gamma_pick_reinit(rct_offsets);
         int num_hits = 0;
         std::vector<uint64_t> picks;
+        picks.reserve(numDraws);
         for (int i = 0; i < NUM_DRAWS; ++i)
         {
             //continue;
-            const uint64_t pick = wallet2_wrapper().gamma_pick(wallet2_wrapper::MIN_RCT_LENGTH * mul);
-            if (pick != wallet2_wrapper::BAD_PICK)
+            const uint64_t pick = wrapper.gamma_pick_inited();
+            if (pick == wallet2_wrapper::BAD_PICK)
+            {
+                continue;
+            }
+            //if (pick != wallet2_wrapper::BAD_PICK)
             {
                 picks.push_back(pick);
                 ++num_hits;
@@ -155,6 +164,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
     const int NUM_DRAWS = 100000;
+    //const int NUM_DRAWS = 1000;
     const char * fileNameOut = "/tmp/mrl_pick_mul_length";
     run_picker(1, 1e5, NUM_DRAWS, fileNameOut);
 }
