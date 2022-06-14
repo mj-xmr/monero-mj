@@ -164,6 +164,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     Statistically probe how often the picks are good at which multiplier of the MIN_RCT_LENGTH
     */
     const int NUM_DRAWS = 100000;
+    //const int NUM_DRAWS = 10000;
     //const int NUM_DRAWS = 1000;
     const char * fileNameOut = "/tmp/mrl_pick_mul_length";
     run_picker(1, 1e5, NUM_DRAWS, fileNameOut);
@@ -181,7 +182,7 @@ TEST(decoy, gamma_multiple)
     const int maxFiles = 20;
     for (int i = 10; i < maxFiles; ++i)
     {
-        std::cout << "Running " << i << " of " << maxFiles << '\n';
+        //std::cout << "Running " << i << " of " << maxFiles << '\n';
         //run_picker(1, 1e5, NUM_DRAWS, fileNameOutBase + std::to_string(i) + ".csv");    // This matches the Python implementation
     }
 }
