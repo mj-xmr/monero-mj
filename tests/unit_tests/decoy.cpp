@@ -50,10 +50,9 @@ namespace {
     */
     std::cout << "Running picker " << maxMul << " down to " << minMul << ", num draws = " << numDraws << '\n';
     const int NUM_DRAWS = numDraws;
-    //const char * fileNameOut  = "/tmp/mrl_mul_2_ratio_good.csv";
+    const char * fileNameOutAggregate  = "/tmp/mrl_mul_2_ratio_good.csv";
+    std::ofstream foutAggr(fileNameOutAggregate);
     std::ofstream fout;
-    
-    //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
     double mulPrev = 0;
     for (double mul = maxMul; mul > minMul; mul *= 0.85)
     {
@@ -95,16 +94,16 @@ namespace {
             std::cout << "Data stored in = " << name << std::endl;
         }
         const double ratio_good_picks = num_hits / double(NUM_DRAWS);
-        if (fout.is_open())
+        if (foutAggr.is_open())
         {
-            //fout << mul << " " << ratio_good_picks << '\n';
+            foutAggr << mul << " " << ratio_good_picks << '\n';
         }
         std::cout << "mul = " << mul << ",\tRatio good 2 all = " << ratio_good_picks << std::endl;
     }
     std::cout << "Num draws = " << NUM_DRAWS << std::endl;
-    if (fout.is_open())
+    if (foutAggr.is_open())
     {
-        //std::cout << "Data stored in = " << fileNameOut << std::endl;
+        std::cout << "Data stored in = " << fileNameOutAggregate << std::endl;
     }
 }
 
