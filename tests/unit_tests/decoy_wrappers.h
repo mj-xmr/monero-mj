@@ -33,9 +33,9 @@
 namespace tools
 {
     class wallet2;
-    class gamma_picker;
+    //class gamma_picker;
+    class gamma_picker_my;
 }
-
 
 class wallet2_wrapper
 {
@@ -57,5 +57,5 @@ public:
     
 private:
     std::unique_ptr<tools::wallet2> pwallet;
-    std::unique_ptr<tools::gamma_picker> ppicker;
+    std::unique_ptr<tools::gamma_picker_my> ppicker;
 };

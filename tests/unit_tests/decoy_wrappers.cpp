@@ -51,17 +51,26 @@ wallet2_wrapper::~wallet2_wrapper()
 {
 
 }
+namespace tools {
+class gamma_picker_my : public gamma_picker
+{
+public:
+    using gamma_picker::gamma_picker;
+    void dump_vars(const std::string & filename, const std::string & id) const;
+};
+}
 
 void wallet2_wrapper::gamma(uint64_t numberRCTs) const
 {
     const std::vector<uint64_t> rct_offsets = init_offests(numberRCTs);
-    tools::gamma_picker picker(rct_offsets);
+    tools::gamma_picker_my picker(rct_offsets);
+    picker.dump_vars("", "");
 }
 
 uint64_t wallet2_wrapper::gamma_pick(uint64_t numberRCTs) const
 {
     const std::vector<uint64_t> rct_offsets = init_offests(numberRCTs);
-    tools::gamma_picker picker(rct_offsets);
+    tools::gamma_picker_my picker(rct_offsets);
     const uint64_t pick = picker.pick();
     return pick;
 }
@@ -70,7 +79,9 @@ void wallet2_wrapper::gamma_pick_reinit(const std::vector<uint64_t> & rct_offset
 {
     //if (ppicker == nullptr)
     {
-        ppicker = std::make_unique<tools::gamma_picker>(rct_offsets);
+        ppicker = std::make_unique<tools::gamma_picker_my>(rct_offsets);
+        //ppicker->dump_vars("", "");
+        int a = 0; int b =a ;
     }
 }
 
@@ -133,5 +144,17 @@ double wallet2_wrapper::gamma_distrib(double x) const
 // void wallet2::get_outs
 
 
+namespace tools {
+void gamma_picker_my::dump_vars(const std::string & filename, const std::string & id) const
+{
+    std::cout << "Dumping " << id << " to: " << filename << std::endl;
+    std::cout << "rct_offsets.front() = " << rct_offsets.front() << std::endl;
+    std::cout << "rct_offsets.back() = " << rct_offsets.back() << std::endl;
+    
+    std::cout << "rct_offsets.size() = " << rct_offsets.size() << std::endl;
+    std::cout << "end - begin = " << end - begin  << std::endl;
+    std::cout << "num_rct_outputs = " << num_rct_outputs  << std::endl;
+    std::cout << "average_output_time = " << average_output_time  << std::endl << std::endl;
+}
 
-
+}

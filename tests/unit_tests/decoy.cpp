@@ -54,8 +54,15 @@ namespace {
     std::ofstream fout;
     
     //for (double mul = 1e5; mul >= 1; mul *= 0.85) /// TODO: This has to go to Python impl.
-    for (double mul = maxMul; mul >= minMul; mul *= 0.85)
+    double mulPrev = 0;
+    for (double mul = maxMul; mul > minMul; mul *= 0.85)
     {
+        mul = std::roundf(mul);
+        if (mul == mulPrev)
+        {
+            break;
+        }
+        mulPrev = mul;
         const uint64_t len = wallet2_wrapper::MIN_RCT_LENGTH * mul;
         wallet2_wrapper wrapper;
         const std::vector<uint64_t> rct_offsets = wrapper.init_offests(len);
@@ -101,6 +108,20 @@ namespace {
     }
 }
 
+}
+
+TEST(decoy, gamma_tsesadas)
+{
+    return;
+    // https://github.com/monero-project/monero/blob/v0.17.3.0/src/wallet/wallet2.cpp#L1029
+    //const double mul = 1000;
+    const int NUM_DRAWS = 10000;
+    const char * fileNameOut = "/tmp/mrl_test";
+    const double mul = 1;
+    const uint64_t len = std::floor(wallet2_wrapper::MIN_RCT_LENGTH * mul);
+    std::cout << "Mul = " << mul << ", len = " << len << " wallet2_wrapper::MIN_RCT_LENGTH = " << wallet2_wrapper::MIN_RCT_LENGTH << std::endl;
+    //EXPECT_NO_THROW(wallet2_wrapper().gamma(len));
+    run_picker(mul, mul, NUM_DRAWS, fileNameOut);
 }
 
 TEST(decoy, gamma_export_distrib)
@@ -165,7 +186,7 @@ TEST(decoy, gamma_more_than_spendable_age_goodPickStatistical)
     */
     const int NUM_DRAWS = 100000;
     //const int NUM_DRAWS = 10000;
-    //const int NUM_DRAWS = 1000;
+    //const int NUM_DRAWS = 100;
     const char * fileNameOut = "/tmp/mrl_pick_mul_length";
     run_picker(1, 1e5, NUM_DRAWS, fileNameOut);
 }
