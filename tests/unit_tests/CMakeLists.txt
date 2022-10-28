@@ -97,6 +97,12 @@ set(unit_tests_sources
   aligned.cpp
   rpc_version_str.cpp
   zmq_rpc.cpp)
+  
+set(unit_tests_sources
+#  decoy.cpp
+  decoy_wrappers.cpp
+  main.cpp
+)
 
 set(unit_tests_headers
   unit_tests_utils.h)
@@ -106,19 +112,19 @@ add_executable(unit_tests
   ${unit_tests_headers})
 target_link_libraries(unit_tests
   PRIVATE
-    ringct
+ #   ringct
     cryptonote_protocol
-    cryptonote_core
-    daemon_messages
-    daemon_rpc_server
-    blockchain_db
-    lmdb_lib
-    rpc
-    net
-    serialization
+#    cryptonote_core
+#    daemon_messages
+#    daemon_rpc_server
+#    blockchain_db
+#    lmdb_lib
+#    rpc
+#    net
+#    serialization
     wallet
-    p2p
-    version
+#    p2p
+#    version
     ${Boost_CHRONO_LIBRARY}
     ${Boost_THREAD_LIBRARY}
     ${GTEST_LIBRARIES}
@@ -135,6 +141,8 @@ if (NOT MSVC)
     PROPERTY
       COMPILE_FLAGS " -Wno-undef -Wno-sign-compare")
 endif ()
+
+#monero_use_pch_private(unit_tests pch_ut.h)
 
 SET_PROPERTY(SOURCE main.cpp PROPERTY COMPILE_FLAGS -DDEFAULT_DATA_DIR="\\"${CMAKE_SOURCE_DIR}/tests/data\\"")
 

@@ -110,7 +110,7 @@ namespace tools
       result_type operator()() { return crypto::rand<result_type>(); }
     } engine;
 
-private:
+protected:
     std::gamma_distribution<double> gamma;
     const std::vector<uint64_t> &rct_offsets;
     const uint64_t *begin, *end;
