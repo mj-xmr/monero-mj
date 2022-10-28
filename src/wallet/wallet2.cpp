@@ -14203,3 +14203,16 @@ std::pair<size_t, uint64_t> wallet2::estimate_tx_size_and_weight(bool use_rct, i
 }
 //----------------------------------------------------------------------------------------------------
 }
+
+uint64_t calculate_fee_wrap(bool use_per_byte_fee, const cryptonote::transaction &tx, size_t blob_size, uint64_t base_fee, uint64_t fee_multiplier, uint64_t fee_quantization_mask)
+{
+    return calculate_fee(use_per_byte_fee, tx, blob_size, base_fee, fee_multiplier, fee_quantization_mask);
+}
+uint64_t calculate_fee_wrap(uint64_t fee_per_kb, size_t bytes, uint64_t fee_multiplier)
+{
+    return calculate_fee(fee_per_kb, bytes, fee_multiplier);
+}
+uint64_t calculate_fee_from_weight_wrap(uint64_t base_fee, uint64_t weight, uint64_t fee_multiplier, uint64_t fee_quantization_mask)
+{
+    return calculate_fee_from_weight(base_fee, weight, fee_multiplier, fee_quantization_mask);
+}

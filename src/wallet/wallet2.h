@@ -2353,3 +2353,7 @@ namespace tools
   }
   //----------------------------------------------------------------------------------------------------
 }
+
+uint64_t calculate_fee_wrap(bool use_per_byte_fee, const cryptonote::transaction &tx, size_t blob_size, uint64_t base_fee, uint64_t fee_multiplier, uint64_t fee_quantization_mask);
+uint64_t calculate_fee_wrap(uint64_t fee_per_kb, size_t bytes, uint64_t fee_multiplier);
+uint64_t calculate_fee_from_weight_wrap(uint64_t base_fee, uint64_t weight, uint64_t fee_multiplier, uint64_t fee_quantization_mask);

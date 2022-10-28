@@ -37,6 +37,11 @@ namespace tools
     class gamma_picker_my;
 }
 
+namespace cryptonote
+{
+    class transaction;
+}
+
 class wallet2_wrapper
 {
 public:
@@ -54,6 +59,12 @@ public:
     
     static const uint64_t BAD_PICK;
     static const uint64_t MIN_RCT_LENGTH;
+    
+    
+    uint64_t calculate_fee(bool use_per_byte_fee, const cryptonote::transaction &tx, size_t blob_size, uint64_t base_fee, uint64_t fee_multiplier, uint64_t fee_quantization_mask) const;
+    uint64_t calculate_fee(uint64_t fee_per_kb, size_t bytes, uint64_t fee_multiplier) const;
+    uint64_t calculate_fee_from_weight(uint64_t base_fee, uint64_t weight, uint64_t fee_multiplier, uint64_t fee_quantization_mask) const;
+
     
 private:
     std::unique_ptr<tools::wallet2> pwallet;

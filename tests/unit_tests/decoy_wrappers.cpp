@@ -158,3 +158,18 @@ void gamma_picker_my::dump_vars(const std::string & filename, const std::string 
 }
 
 }
+
+uint64_t wallet2_wrapper::calculate_fee(bool use_per_byte_fee, const cryptonote::transaction &tx, size_t blob_size, uint64_t base_fee, uint64_t fee_multiplier, uint64_t fee_quantization_mask) const
+{
+    return calculate_fee_wrap(use_per_byte_fee, tx, blob_size, base_fee, fee_multiplier, fee_quantization_mask);
+}
+
+uint64_t wallet2_wrapper::calculate_fee(uint64_t fee_per_kb, size_t bytes, uint64_t fee_multiplier) const
+{
+    return calculate_fee_wrap(fee_per_kb, bytes, fee_multiplier);
+}
+
+uint64_t wallet2_wrapper::calculate_fee_from_weight(uint64_t base_fee, uint64_t weight, uint64_t fee_multiplier, uint64_t fee_quantization_mask) const
+{
+    return calculate_fee_from_weight_wrap(base_fee, weight, fee_multiplier, fee_quantization_mask);
+}
